@@ -18,7 +18,7 @@
 <nav
 	class="w-full h-16 flex flex-row justify-between px-4 border-b-[0.5px] border-gray-600 bg-black"
 >
-	<div class="flex items-center justify-center text-white">LOGO</div>
+	<div class="flex items-center justify-center text-white"><a href="/">LOGO</a></div>
 	<div class="flex items-center justify-center">
 		{#if isAuthed}
 			<DropdownMenu.Root>
