@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input';
-	import { Button } from '$lib/components/ui/button';
 	import * as Select from '$lib/components/ui/select';
 </script>
 
@@ -12,6 +11,7 @@
 					<h1
 						class="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500"
 					>
+						<!-- Replace with Cinemus logo -->
 						Revolutionize Your Email Experience
 					</h1>
 					<p class="max-w-[600px] text-zinc-200 md:text-xl dark:text-zinc-100 mx-auto">
