@@ -1,6 +1,14 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
+	import { debounce } from 'lodash';
+
+	let query = '';
+	let type = '';
+
+	const handleSearch = debounce(() => {
+		fetch(`/search?query=${query}&type=${type}`);
+	}, 750);
 </script>
 
 <section class="w-full h-screen py-12 md:py-24 lg:py-32 xl:py-48 bg-black">
@@ -20,12 +28,20 @@
 				</div>
 				<div class="w-full max-w-sm space-y-2 mx-auto">
 					<form class="flex space-x-2">
+						<!-- TODO: Need to render results UI -->
 						<Input
+							bind:value={query}
 							class="max-w-lg flex-1 flex-grow bg-gray-800 text-white border-gray-900"
 							placeholder="30 Rock"
 							type="email"
+							on:input={handleSearch}
 						/>
-						<Select.Root selected={{ value: 'all', label: 'All' }}>
+						<Select.Root
+							onSelectedChange={(a) => {
+								type = a?.value?.toString() ?? '';
+							}}
+							selected={{ value: 'all', label: 'All' }}
+						>
 							<Select.Trigger class=" w-1/3 bg-gray-800 text-white border-gray-900">
 								<Select.Value placeholder="Media type" />
 							</Select.Trigger>
