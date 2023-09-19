@@ -26,7 +26,7 @@
 	};
 </script>
 
-<section class="w-full h-screen py-12 md:py-24 lg:py-32 xl:py-48 bg-black">
+<section class="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-black">
 	<div class="container px-4 md:px-6">
 		<div class="grid gap-6 items-center">
 			<div class="flex flex-col justify-center space-y-4 text-center">
