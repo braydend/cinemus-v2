@@ -4,6 +4,7 @@
 	import { debounce } from 'lodash';
 	import type { TmdbSearchMovieResult, TmdbSearchShowResult } from '../lib/tmdb/types';
 	import Badge from '../lib/components/ui/badge/badge.svelte';
+	import Spinner from '../lib/components/ui/spinner/spinner.svelte';
 
 	let query = '';
 	let type = '';
@@ -64,7 +65,9 @@
 					<div class="overflow-y-scroll flex flex-col max-h-96 gap-2">
 						{#if results}
 							{#await results}
-								<div class="text-white">spinner</div>
+								<div>
+									<Spinner />
+								</div>
 							{:then media}
 								{#each media.results as m}
 									<a
