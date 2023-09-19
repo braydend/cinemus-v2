@@ -29,15 +29,10 @@
 <section class="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-black">
 	<div class="container px-4 md:px-6">
 		<div class="grid gap-6 items-center">
-			<div class="flex flex-col justify-center space-y-4 text-center">
+			<div class="flex flex-col justify-center space-y-4 text-center items-center">
 				<div class="space-y-2">
-					<h1
-						class="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500"
-					>
-						<!-- Replace with Cinemus logo -->
-						Revolutionize Your Email Experience
-					</h1>
-					<p class="max-w-[600px] text-zinc-200 md:text-xl dark:text-zinc-100 mx-auto">
+					<img src="/textLogo.png" alt="Cinemus Logo" width="600" height="auto" />
+					<p class="max-w-[600px] text-zinc-200 md:text-xl dark:text-zinc-100">
 						Streaming simplified.
 					</p>
 				</div>
