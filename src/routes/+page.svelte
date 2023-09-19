@@ -72,7 +72,10 @@
 								<div class="text-white">spinner</div>
 							{:then media}
 								{#each media.results as m}
-									<div class="text-white flex flex-row gap-4 hover:bg-muted/20 items-center">
+									<a
+										class="text-white flex flex-row gap-4 hover:bg-muted/20 items-center"
+										href={`/media/${m.__type}/${m.id}`}
+									>
 										<img
 											src={m.poster}
 											alt={`${m.__type === 'show' ? m.name : m.title} poster`}
@@ -83,7 +86,7 @@
 											{m.__type === 'show' ? m.name : m.title}
 										</p>
 										<Badge variant="secondary">{m.__type === 'show' ? 'TV Show' : 'Movie'}</Badge>
-									</div>
+									</a>
 								{/each}
 							{/await}
 						{/if}
