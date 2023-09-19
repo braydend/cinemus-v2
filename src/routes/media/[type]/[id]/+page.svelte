@@ -5,25 +5,12 @@
 
 	let selectedRegion = 'AU' ?? data.regions.results[0].iso_3166_1 ?? '';
 
-	// TODO: Fetch from TMDB
 	const mediaData = {
 		title: data.media.__type === 'show' ? data.media.name : data.media.title,
-		synopsis: data.media.overview,
-		providers: {
-			paid: [{ id: 1, name: 'Netflix', image: 'https://placehold.co/48x48' }],
-			ads: [{ id: 3, name: 'Foxtel Go', image: 'https://placehold.co/48x48' }],
-			free: [
-				{ id: 7, name: 'Tubi', image: 'https://placehold.co/48x48' },
-				{ id: 4, name: 'ABC iView', image: 'https://placehold.co/48x48' }
-			]
-		}
+		synopsis: data.media.overview
 	};
 
 	const providers = data.providers.results[selectedRegion];
-
-	providers.free;
-
-	console.log({ providers, selectedRegion });
 </script>
 
 <main class="p-8 bg-black text-white">

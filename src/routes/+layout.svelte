@@ -19,7 +19,9 @@
 	<nav
 		class="w-full h-16 flex flex-row justify-between px-4 border-b-[0.5px] border-gray-600 bg-black"
 	>
-		<div class="flex items-center justify-center text-white"><a href="/">LOGO</a></div>
+		<div class="flex items-center justify-center">
+			<a href="/"><img src="/couchLogo.png" alt="Cinemus logo" width="64" height="auto" /></a>
+		</div>
 		<div class="flex items-center justify-center">
 			{#if isAuthed}
 				<DropdownMenu.Root>
