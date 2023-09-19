@@ -2,13 +2,28 @@
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
 	import { debounce } from 'lodash';
+	import type { TmdbSearchMovieResult, TmdbSearchShowResult } from '../lib/tmdb/types';
+	import Badge from '../lib/components/ui/badge/badge.svelte';
 
 	let query = '';
 	let type = '';
 
+	type SearchResults = ((TmdbSearchShowResult | TmdbSearchMovieResult) & { poster: string })[];
+
+	let results: Promise<{ results: SearchResults }>;
+
+	const updateSearchPromise = () => {
+		results = fetch(`/search?query=${query}&type=${type}`).then((d) => d.json());
+	};
+
 	const handleSearch = debounce(() => {
-		fetch(`/search?query=${query}&type=${type}`);
+		updateSearchPromise();
 	}, 750);
+
+	const handleTypeChange = (newType: string) => {
+		type = newType;
+		updateSearchPromise();
+	};
 </script>
 
 <section class="w-full h-screen py-12 md:py-24 lg:py-32 xl:py-48 bg-black">
@@ -26,9 +41,8 @@
 						Streaming simplified.
 					</p>
 				</div>
-				<div class="w-full max-w-sm space-y-2 mx-auto">
+				<div class="w-full max-w-lg space-y-2 mx-auto">
 					<form class="flex space-x-2">
-						<!-- TODO: Need to render results UI -->
 						<Input
 							bind:value={query}
 							class="max-w-lg flex-1 flex-grow bg-gray-800 text-white border-gray-900"
@@ -38,7 +52,7 @@
 						/>
 						<Select.Root
 							onSelectedChange={(a) => {
-								type = a?.value?.toString() ?? '';
+								handleTypeChange(a?.value?.toString() ?? '');
 							}}
 							selected={{ value: 'all', label: 'All' }}
 						>
@@ -52,6 +66,28 @@
 							</Select.Content>
 						</Select.Root>
 					</form>
+					<div class="overflow-y-scroll flex flex-col max-h-96 gap-2">
+						{#if results}
+							{#await results}
+								<div class="text-white">spinner</div>
+							{:then media}
+								{#each media.results as m}
+									<div class="text-white flex flex-row gap-4 hover:bg-muted/20 items-center">
+										<img
+											src={m.poster}
+											alt={`${m.__type === 'show' ? m.name : m.title} poster`}
+											width="46"
+											height="auto"
+										/>
+										<p>
+											{m.__type === 'show' ? m.name : m.title}
+										</p>
+										<Badge variant="secondary">{m.__type === 'show' ? 'TV Show' : 'Movie'}</Badge>
+									</div>
+								{/each}
+							{/await}
+						{/if}
+					</div>
 				</div>
 			</div>
 		</div>
