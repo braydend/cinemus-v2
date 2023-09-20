@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Input } from '$lib/components/ui/input';
 	import * as Select from '$lib/components/ui/select';
-	import { debounce } from 'lodash';
+	import debounce from 'lodash/debounce';
 	import type { TmdbSearchMovieResult, TmdbSearchShowResult } from '../lib/tmdb/types';
 	import Badge from '../lib/components/ui/badge/badge.svelte';
 	import Spinner from '../lib/components/ui/spinner/spinner.svelte';
