@@ -2,6 +2,7 @@ import { int, timestamp, mysqlTable, primaryKey, varchar } from 'drizzle-orm/mys
 import type { AdapterAccount } from '@auth/core/adapters';
 import { relations } from 'drizzle-orm';
 
+// AuthJS Tables
 export const users = mysqlTable('user', {
 	id: varchar('id', { length: 255 }).notNull().primaryKey(),
 	name: varchar('name', { length: 255 }),
@@ -17,9 +18,7 @@ export const accounts = mysqlTable(
 	'account',
 	{
 		userId: varchar('userId', { length: 255 }).notNull(),
-		/*.references(() => users.id, { onDelete: "cascade" })*/ type: varchar('type', { length: 255 })
-			.$type<AdapterAccount['type']>()
-			.notNull(),
+		type: varchar('type', { length: 255 }).$type<AdapterAccount['type']>().notNull(),
 		provider: varchar('provider', { length: 255 }).notNull(),
 		providerAccountId: varchar('providerAccountId', { length: 255 }).notNull(),
 		refresh_token: varchar('refresh_token', { length: 255 }),
@@ -50,7 +49,7 @@ export const accountRelations = relations(accounts, ({ one }) => ({
 export const sessions = mysqlTable('session', {
 	sessionToken: varchar('sessionToken', { length: 255 }).notNull().primaryKey(),
 	userId: varchar('userId', { length: 255 }).notNull(),
-	/*.references(() => users.id, { onDelete: "cascade" })*/ expires: timestamp('expires', {
+	expires: timestamp('expires', {
 		mode: 'date'
 	}).notNull()
 });
