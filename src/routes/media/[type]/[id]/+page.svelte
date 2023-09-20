@@ -1,16 +1,17 @@
 <script lang="ts">
 	import ProviderList from './ProviderList.svelte';
+	import * as Select from '$lib/components/ui/select';
 
 	export let data;
 
-	let selectedRegion = 'AU' ?? data.regions.results[0].iso_3166_1 ?? '';
+	let selectedRegion = '';
 
 	const mediaData = {
 		title: data.media.__type === 'show' ? data.media.name : data.media.title,
 		synopsis: data.media.overview
 	};
 
-	const providers = data.providers.results[selectedRegion];
+	$: providers = data.providers.results[selectedRegion];
 </script>
 
 <main class="p-8 bg-black text-white">
@@ -32,27 +33,53 @@
 		</div>
 	</div>
 	<div class="pt-4">
-		<h2 class="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-			Providers
-		</h2>
-		{#if providers.free?.length}
-			<ProviderList providers={providers.free} imgBaseUrl={data.logoBase} label="Free" />
-		{/if}
-		{#if providers.ads?.length}
-			<ProviderList providers={providers.ads} imgBaseUrl={data.logoBase} label="Ads" />
-		{/if}
-		{#if providers.flatrate?.length}
-			<ProviderList
-				providers={providers.flatrate}
-				imgBaseUrl={data.logoBase}
-				label="Subscription"
-			/>
-		{/if}
-		{#if providers.buy?.length}
-			<ProviderList providers={providers.buy} imgBaseUrl={data.logoBase} label="Buy" />
-		{/if}
-		{#if providers.rent?.length}
-			<ProviderList providers={providers.rent} imgBaseUrl={data.logoBase} label="Rent" />
+		<div class="flex flex-row justify-between">
+			<h2
+				class="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
+			>
+				Providers
+			</h2>
+			<Select.Root
+				onSelectedChange={(a) => {
+					selectedRegion = a?.value?.toString() ?? '';
+				}}
+			>
+				<Select.Trigger class="w-1/2 md:w-1/3 bg-gray-800 text-white border-gray-900">
+					<Select.Value placeholder="Region" />
+				</Select.Trigger>
+				<Select.Content
+					class="bg-gray-800 text-white border-gray-900 overflow-y-scroll max-h-[30vh]"
+				>
+					{#each data.regions.results as region}
+						<Select.Item value={region.iso_3166_1}>{region.english_name}</Select.Item>
+					{/each}
+				</Select.Content>
+			</Select.Root>
+		</div>
+		{#if selectedRegion === ''}
+			<p>Select a region</p>
+		{:else if !providers}
+			<p>Unavailable in this region</p>
+		{:else}
+			{#if providers.free?.length}
+				<ProviderList providers={providers.free} imgBaseUrl={data.logoBase} label="Free" />
+			{/if}
+			{#if providers.ads?.length}
+				<ProviderList providers={providers.ads} imgBaseUrl={data.logoBase} label="Ads" />
+			{/if}
+			{#if providers.flatrate?.length}
+				<ProviderList
+					providers={providers.flatrate}
+					imgBaseUrl={data.logoBase}
+					label="Subscription"
+				/>
+			{/if}
+			{#if providers.buy?.length}
+				<ProviderList providers={providers.buy} imgBaseUrl={data.logoBase} label="Buy" />
+			{/if}
+			{#if providers.rent?.length}
+				<ProviderList providers={providers.rent} imgBaseUrl={data.logoBase} label="Rent" />
+			{/if}
 		{/if}
 	</div>
 </main>
