@@ -13,6 +13,16 @@
 	};
 
 	$: providers = data.providers.results[selectedRegion];
+
+	const addToList = () => {
+		fetch('/watchlist/add', {
+			method: 'POST',
+			body: JSON.stringify({
+				mediaId: data.media.id,
+				type: data.media.__type
+			})
+		});
+	};
 </script>
 
 <main class="p-8 bg-black text-white">
@@ -33,6 +43,7 @@
 			</p>
 		</div>
 	</div>
+	<button on:click={() => addToList()}>add</button>
 	<div class="pt-4">
 		<div class="flex flex-row justify-between">
 			<h2

@@ -7,5 +7,14 @@ import { db } from '$lib/db';
 export const handle = SvelteKitAuth({
 	providers: [GitHub({ clientId: GITHUB_ID, clientSecret: GITHUB_SECRET })],
 	adapter: DrizzleAdapter(db),
-	secret: AUTH_SECRET
+	secret: AUTH_SECRET,
+	callbacks: {
+		session: ({ session, user }) => ({
+			...session,
+			user: {
+				...session.user,
+				id: user.id
+			}
+		})
+	}
 });

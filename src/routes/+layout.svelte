@@ -18,9 +18,9 @@
 	};
 </script>
 
-<div class="h-screen bg-black">
+<div class="h-screen bg-black text-white overflow-y-scroll">
 	<nav
-		class="w-full h-16 flex flex-row justify-between px-4 border-b-[0.5px] border-gray-600 bg-black"
+		class="w-full h-16 flex flex-row justify-between px-4 border-b-[0.5px] border-gray-600 bg-black sticky top-0"
 	>
 		<div class="flex items-center justify-center">
 			<a href="/"><img src="/couchLogo.png" alt="Cinemus logo" width="64" height="auto" /></a>
@@ -36,7 +36,7 @@
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content>
 						<DropdownMenu.Group>
-							<DropdownMenu.Label>Preferences</DropdownMenu.Label>
+							<DropdownMenu.Label><a href="/watchlist">Watchlist</a></DropdownMenu.Label>
 							<DropdownMenu.Separator />
 							<DropdownMenu.Item on:click={handleLogout}>Logout</DropdownMenu.Item>
 						</DropdownMenu.Group>
