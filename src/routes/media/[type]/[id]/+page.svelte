@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ProviderList from './ProviderList.svelte';
 	import * as Select from '$lib/components/ui/select';
+	import * as Alert from '$lib/components/ui/alert';
 
 	export let data;
 
@@ -56,10 +57,15 @@
 				</Select.Content>
 			</Select.Root>
 		</div>
-		{#if selectedRegion === ''}
-			<p>Select a region</p>
-		{:else if !providers}
-			<p>Unavailable in this region</p>
+		{#if !providers}
+			<Alert.Root variant="destructive" class="my-4">
+				<Alert.Title>Heads up!</Alert.Title>
+				<Alert.Description
+					>{selectedRegion === ''
+						? 'You need to select a region!'
+						: `${mediaData.title} is unavailable in this region.`}</Alert.Description
+				>
+			</Alert.Root>
 		{:else}
 			{#if providers.free?.length}
 				<ProviderList providers={providers.free} imgBaseUrl={data.logoBase} label="Free" />
