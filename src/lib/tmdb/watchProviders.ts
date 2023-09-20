@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { MOVIE_DB_API_KEY, TMDB_URL } from '$env/static/private';
 
 const tmdbBaseUrl = TMDB_URL;
@@ -38,11 +37,11 @@ interface WatchRegionDetails {
 
 export const getWatchProviderRegions = async (): Promise<TmdbWatchProviderRegionsResponse> => {
 	try {
-		const response = await axios.get<TmdbWatchProviderRegionsResponse>(
+		const response: TmdbWatchProviderRegionsResponse = await fetch(
 			`${tmdbBaseUrl}/watch/providers/regions?api_key=${MOVIE_DB_API_KEY}`
-		);
+		).then((d) => d.json());
 
-		return response.data;
+		return response;
 	} catch (e) {
 		throw Error(`Failed to get TMDB watch provider regions: ${(e as Error).message}`);
 	}
@@ -50,11 +49,11 @@ export const getWatchProviderRegions = async (): Promise<TmdbWatchProviderRegion
 
 export const getShowWatchProviders = async (id: string): Promise<TmdbWatchProviderResponse> => {
 	try {
-		const response = await axios.get<TmdbWatchProviderResponse>(
+		const response: TmdbWatchProviderResponse = await fetch(
 			`${tmdbBaseUrl}/tv/${id}/watch/providers?api_key=${MOVIE_DB_API_KEY}`
-		);
+		).then((d) => d.json());
 
-		return response.data;
+		return response;
 	} catch (e) {
 		throw Error(`Failed to get TMDB show watch providers: ${(e as Error).message}`);
 	}
@@ -62,11 +61,11 @@ export const getShowWatchProviders = async (id: string): Promise<TmdbWatchProvid
 
 export const getMovieWatchProviders = async (id: string): Promise<TmdbWatchProviderResponse> => {
 	try {
-		const response = await axios.get<TmdbWatchProviderResponse>(
+		const response: TmdbWatchProviderResponse = await fetch(
 			`${tmdbBaseUrl}/movie/${id}/watch/providers?api_key=${MOVIE_DB_API_KEY}`
-		);
+		).then((d) => d.json());
 
-		return response.data;
+		return response;
 	} catch (e) {
 		throw Error(`Failed to get TMDB movie watch providers: ${(e as Error).message}`);
 	}

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { MOVIE_DB_API_KEY, TMDB_URL } from '$env/static/private';
 import type {
 	TmdbMovieDetails,
@@ -33,11 +32,11 @@ const get = async <MediaType extends TmdbMedia>(
 	type: MediaCategory
 ): Promise<MediaType> => {
 	try {
-		const response = await axios.get<MediaType>(
+		const response: MediaType = await fetch(
 			`${tmdbBaseUrl}/${type}/${id}?api_key=${MOVIE_DB_API_KEY}`
-		);
+		).then((d) => d.json());
 
-		const markedMedia = markMediaType(response.data, type);
+		const markedMedia = markMediaType(response, type);
 
 		return markedMedia;
 	} catch (e) {
@@ -50,14 +49,14 @@ const search = async <MediaType extends TmdbMedia>(
 	query: string
 ): Promise<TmdbSearch<MediaType>> => {
 	try {
-		const response = await axios.get<TmdbSearch<MediaType>>(
+		const response: TmdbSearch<MediaType> = await fetch(
 			`${tmdbBaseUrl}/search/${mediaType}?api_key=${MOVIE_DB_API_KEY}&query=${query}`
-		);
+		).then((d) => d.json());
 
-		const markedMedia = markMediaTypes(response.data.results, mediaType);
+		const markedMedia = markMediaTypes(response.results, mediaType);
 
 		return {
-			...response.data,
+			...response,
 			results: markedMedia.sort((a, b) => b.popularity - a.popularity)
 		};
 	} catch (e) {
