@@ -1,6 +1,49 @@
-import { int, timestamp, mysqlTable, primaryKey, varchar } from 'drizzle-orm/mysql-core';
+import { int, timestamp, mysqlTable, primaryKey, varchar, boolean } from 'drizzle-orm/mysql-core';
 import type { AdapterAccount } from '@auth/core/adapters';
 import { relations } from 'drizzle-orm';
+
+export const watchlist = mysqlTable('watchlist', {
+	id: int('id').autoincrement().primaryKey(),
+	userId: varchar('userid', { length: 255 }).notNull()
+});
+
+export const watchlistRelations = relations(watchlist, ({ many }) => ({
+	listedMedia: many(listedMedia)
+}));
+
+export const listedMedia = mysqlTable(
+	'listedMedia',
+	{
+		watchlistId: int('watchlistId').notNull(),
+		mediaId: int('mediaId').notNull(),
+		isWatched: boolean('isWatched').default(false),
+		rating: int('rating')
+	},
+	(listedMedia) => ({
+		compoundKey: primaryKey(listedMedia.watchlistId, listedMedia.mediaId)
+	})
+);
+
+export const listedMediaRelations = relations(listedMedia, ({ one }) => ({
+	watchlist: one(watchlist, {
+		fields: [listedMedia.watchlistId],
+		references: [watchlist.id]
+	}),
+	media: one(media, {
+		fields: [listedMedia.mediaId],
+		references: [media.id]
+	})
+}));
+
+export const media = mysqlTable('media', {
+	id: int('id').autoincrement().primaryKey(),
+	tmdbId: int('tmdbId').notNull(),
+	type: varchar('type', { enum: ['show', 'movie'], length: 5 }).notNull()
+});
+
+export const mediaRelations = relations(media, ({ many }) => ({
+	listedMedia: many(listedMedia)
+}));
 
 // AuthJS Tables
 export const users = mysqlTable('user', {
