@@ -3,15 +3,18 @@
 	import * as Avatar from '$lib/components/ui/avatar';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { page } from '$app/stores';
+	import { signIn, signOut } from '@auth/sveltekit/client';
 
-	$: isAuthed = false;
+	const userSession = $page.data.session?.user;
+	const isAuthed = Boolean(userSession);
 
 	const handleLogin = () => {
-		isAuthed = true;
+		signIn();
 	};
 
 	const handleLogout = () => {
-		isAuthed = false;
+		signOut();
 	};
 </script>
 
@@ -27,9 +30,8 @@
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger>
 						<Avatar.Root>
-							<!-- Dynamically set with user data from session -->
-							<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
-							<Avatar.Fallback>CN</Avatar.Fallback>
+							<Avatar.Image src={userSession?.image} alt={userSession?.name} />
+							<Avatar.Fallback>{userSession?.name}</Avatar.Fallback>
 						</Avatar.Root>
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content>
