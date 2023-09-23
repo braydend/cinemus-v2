@@ -3,7 +3,6 @@ import { db } from '../../lib/db/index';
 import { watchlist } from '../../lib/db/schema';
 import { getConfiguration } from '../../lib/tmdb/configuration';
 import { getMovie, getShow } from '../../lib/tmdb/media';
-import type { DefaultSession } from '@auth/core/types';
 import { error } from '@sveltejs/kit';
 import type { CustomSession } from '../../lib/types';
 
