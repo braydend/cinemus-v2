@@ -37,7 +37,8 @@ export async function load({ locals }) {
 					fetchedMedia?.poster_path
 				}`,
 				title: fetchedMedia?.__type === 'show' ? fetchedMedia.name : fetchedMedia?.title,
-				tmdbID: fetchedMedia?.id
+				tmdbID: fetchedMedia?.id,
+				genres: fetchedMedia?.genres.map(({ name }) => name)
 			};
 		}) ?? [];
 

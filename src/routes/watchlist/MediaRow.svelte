@@ -1,13 +1,9 @@
 <script lang="ts">
 	import Clapper from './Clapper.svelte';
+	import type { PageData } from './$types';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 
-	export let media: {
-		isWatched: boolean | null;
-		rating: number | null;
-		poster: string;
-		title: string | undefined;
-		tmdbID: number | undefined;
-	};
+	export let media: PageData['list'] extends readonly (infer ElementType)[] ? ElementType : never;
 
 	let showClapper = false;
 
@@ -23,7 +19,18 @@
 <div class="flex flex-row gap-4 items-center">
 	<img src={media.poster} alt={media.title} width={64} height={'auto'} />
 	<div class="flex flex-row justify-between w-full overflow-x-hidden">
-		<h2>{media.title}</h2>
+		<div>
+			<h2
+				class="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
+			>
+				{media.title}
+			</h2>
+			<div class="flex flex-row gap-2">
+				{#each media?.genres ?? [] as genre}
+					<Badge variant="secondary">{genre}</Badge>
+				{/each}
+			</div>
+		</div>
 		<button on:click={() => handleWatched()}
 			>{media.isWatched ? 'Unamrk as watched' : 'Mark as watched'}</button
 		>
