@@ -2,6 +2,7 @@
 	import ProviderList from './ProviderList.svelte';
 	import * as Select from '$lib/components/ui/select';
 	import * as Alert from '$lib/components/ui/alert';
+	import Button from '$lib/components/ui/button/button.svelte';
 
 	export let data;
 
@@ -35,15 +36,17 @@
 			height="auto"
 		/>
 		<div class="md:col-start-2 col-span-full pl-4">
-			<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-				{mediaData.title}
-			</h1>
+			<div class="flex flex-row justify-between">
+				<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+					{mediaData.title}
+				</h1>
+				<Button variant="secondary" on:click={() => addToList()}>Add to your list</Button>
+			</div>
 			<p class="leading-7 [&:not(:first-child)]:mt-6">
 				{mediaData.synopsis}
 			</p>
 		</div>
 	</div>
-	<button on:click={() => addToList()}>add</button>
 	<div class="pt-4">
 		<div class="flex flex-row justify-between">
 			<h2

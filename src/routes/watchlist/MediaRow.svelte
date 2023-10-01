@@ -2,6 +2,7 @@
 	import Clapper from './Clapper.svelte';
 	import type { PageData } from './$types';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
 
 	export let media: PageData['list'] extends readonly (infer ElementType)[] ? ElementType : never;
 
@@ -31,9 +32,9 @@
 				{/each}
 			</div>
 		</div>
-		<button on:click={() => handleWatched()}
-			>{media.isWatched ? 'Unamrk as watched' : 'Mark as watched'}</button
-		>
+		<Button on:click={() => handleWatched()} variant="secondary">
+			{media.isWatched ? 'Unamrk as watched' : 'Mark as watched'}
+		</Button>
 		<div class={`clapper-container ${showClapper && 'fly-in'}`}>
 			{#if showClapper}
 				<Clapper />
