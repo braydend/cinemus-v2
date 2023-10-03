@@ -54,3 +54,14 @@ export const flyAndScale = (
 		easing: cubicOut
 	};
 };
+
+export const truncate = (msg: string, maxLength = 10): string => {
+	const length = msg.length;
+	const elipsis = '...';
+
+	if (length <= maxLength) return msg;
+
+	const safeString = msg.slice(0, maxLength - elipsis.length);
+
+	return `${safeString}${elipsis}`;
+};
