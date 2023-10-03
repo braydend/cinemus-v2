@@ -1,8 +1,12 @@
+<script lang="ts">
+	export let label: string;
+</script>
+
 <div class="container">
 	<div class="clapper">
 		<div class="top" />
 		<div class="bottom" />
-		<div class="base">Watched!</div>
+		<div class="base">{label}</div>
 	</div>
 </div>
 
@@ -15,12 +19,9 @@
 		background: repeating-linear-gradient(45deg, #ffffff, #ffffff 10px, #000000 10px, #000000 20px);
 		width: 100px;
 		height: 20px;
-		animation: clap 0.5s;
+		animation: clap 0.7s;
+		border-radius: 4px 4px 0 0;
 	}
-
-	/* .clapper:hover > .top {
-		animation: clap 0.5s;
-	} */
 
 	.bottom {
 		background: repeating-linear-gradient(
@@ -41,13 +42,9 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		animation: clapperText 0.5s forwards;
-		border: 1px solid white;
+		border: 2px solid white;
+		border-radius: 0 0 4px 4px;
 	}
-
-	/* .clapper:hover > .base {
-		animation: clapperText 0.5s forwards;
-	} */
 
 	@keyframes clap {
 		0% {
