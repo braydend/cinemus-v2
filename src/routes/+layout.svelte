@@ -36,7 +36,7 @@
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content>
 						<DropdownMenu.Group>
-							<DropdownMenu.Label><a href="/watchlist">Watchlist</a></DropdownMenu.Label>
+							<DropdownMenu.Item><a href="/watchlist">Watchlist</a></DropdownMenu.Item>
 							<DropdownMenu.Separator />
 							<DropdownMenu.Item on:click={handleLogout}>Logout</DropdownMenu.Item>
 						</DropdownMenu.Group>
