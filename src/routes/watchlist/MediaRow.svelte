@@ -8,12 +8,26 @@
 
 	let showClapper = false;
 
-	const handleWatched = () => {
-		showClapper = true;
+	$: isWatched = media.isWatched;
+	$: isLoading = false;
 
-		setTimeout(() => {
-			showClapper = false;
-		}, 3500);
+	const handleWatched = () => {
+		isLoading = true;
+		fetch('/watchlist/watch', {
+			method: 'POST',
+			body: JSON.stringify({ mediaId: media.mediaId })
+		}).then(({ ok }) => {
+			if (ok) {
+				if (!isWatched) {
+					showClapper = true;
+					setTimeout(() => {
+						showClapper = false;
+					}, 3500);
+				}
+				isWatched = !isWatched;
+			}
+			isLoading = false;
+		});
 	};
 </script>
 
@@ -32,8 +46,8 @@
 				{/each}
 			</div>
 		</div>
-		<Button on:click={() => handleWatched()} variant="secondary">
-			{media.isWatched ? 'Unamrk as watched' : 'Mark as watched'}
+		<Button disabled={isLoading} on:click={() => handleWatched()} variant="secondary">
+			{isWatched ? 'Unmark as watched' : 'Mark as watched'}
 		</Button>
 		<div class={`clapper-container ${showClapper && 'fly-in'}`}>
 			{#if showClapper}

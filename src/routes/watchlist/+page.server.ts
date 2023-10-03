@@ -28,7 +28,7 @@ export async function load({ locals }) {
 	]);
 
 	const hydratedMedia =
-		list?.listedMedia.map(({ isWatched, rating, media: { tmdbId } }) => {
+		list?.listedMedia.map(({ isWatched, rating, media: { tmdbId }, mediaId }) => {
 			const fetchedMedia = tmdbMedia.find(({ id }) => id === tmdbId);
 			return {
 				isWatched,
@@ -38,7 +38,8 @@ export async function load({ locals }) {
 				}`,
 				title: fetchedMedia?.__type === 'show' ? fetchedMedia.name : fetchedMedia?.title,
 				tmdbID: fetchedMedia?.id,
-				genres: fetchedMedia?.genres.map(({ name }) => name)
+				genres: fetchedMedia?.genres.map(({ name }) => name),
+				mediaId
 			};
 		}) ?? [];
 
