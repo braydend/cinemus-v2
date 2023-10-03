@@ -3,6 +3,7 @@
 	import type { PageData } from './$types';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { truncate } from '$lib/utils';
 
 	export let media: PageData['list'] extends readonly (infer ElementType)[] ? ElementType : never;
 
@@ -51,7 +52,7 @@
 		</Button>
 		<div class={`clapper-container ${showClapper && 'fly-in'}`}>
 			{#if showClapper}
-				<Clapper />
+				<Clapper label={truncate(media.title ?? '')} />
 			{/if}
 		</div>
 		{#if media.rating}
@@ -63,30 +64,31 @@
 <style>
 	.clapper-container {
 		position: fixed;
-		right: -200px;
-		transition: right 0.5s;
-		margin-top: -40px;
+		top: -200px;
+		transition: top 0.5s;
+		left: 50%;
+		transform: translate(-50%, -50%);
 	}
 
 	.fly-in {
-		animation: fly-in-out 3s forwards;
+		animation: fly-in-out 2s forwards;
 	}
 
 	@keyframes fly-in-out {
 		0% {
-			right: -200px;
+			top: -200px;
 		}
 
-		10% {
-			right: 0px;
+		30% {
+			top: 200px;
 		}
 
-		90% {
-			right: 0px;
+		70% {
+			top: 200px;
 		}
 
 		100% {
-			right: -200px;
+			top: -200px;
 		}
 	}
 </style>
