@@ -14,14 +14,22 @@
 	};
 
 	$: providers = data.providers.results[selectedRegion];
+	$: isListed = data.isListed;
+	$: isAdding = false;
 
 	const addToList = () => {
+		isAdding = true;
 		fetch('/watchlist/add', {
 			method: 'POST',
 			body: JSON.stringify({
 				mediaId: data.media.id,
 				type: data.media.__type
 			})
+		}).then(({ ok }) => {
+			if (ok) {
+				isListed = true;
+			}
+			isAdding = false;
 		});
 	};
 </script>
@@ -40,7 +48,17 @@
 				<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
 					{mediaData.title}
 				</h1>
-				<Button variant="secondary" on:click={() => addToList()}>Add to your list</Button>
+				{#if data.isAuthed}
+					{#if isListed}
+						<span>This is already in <a class="underline" href="/watchlist">your list</a></span>
+					{:else}
+						<Button variant="secondary" on:click={() => addToList()} disabled={isAdding}>
+							Add to your list
+						</Button>
+					{/if}
+				{:else}
+					<span>Log in to add this to your watchlist</span>
+				{/if}
 			</div>
 			<p class="leading-7 [&:not(:first-child)]:mt-6">
 				{mediaData.synopsis}
