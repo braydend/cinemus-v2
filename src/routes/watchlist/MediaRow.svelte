@@ -4,6 +4,9 @@
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { truncate } from '$lib/utils';
+	import MenuIcon from '$lib/icons/MenuIcon.svelte';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+	import { ClapperboardIcon } from 'lucide-svelte';
 
 	export let media: PageData['list'] extends readonly (infer ElementType)[] ? ElementType : never;
 
@@ -47,9 +50,29 @@
 				{/each}
 			</div>
 		</div>
-		<Button disabled={isLoading} on:click={() => handleWatched()} variant="secondary">
+		<Button
+			class="hidden lg:block"
+			disabled={isLoading}
+			on:click={() => handleWatched()}
+			variant="secondary"
+		>
 			{isWatched ? 'Unmark as watched' : 'Mark as watched'}
 		</Button>
+		<div class="lg:hidden">
+			<DropdownMenu.Root>
+				<DropdownMenu.Trigger>
+					<MenuIcon />
+				</DropdownMenu.Trigger>
+				<DropdownMenu.Content class="w-56">
+					<DropdownMenu.Group>
+						<DropdownMenu.Item on:click={() => handleWatched()}>
+							<ClapperboardIcon class="mr-2 h-4 w-4" />
+							<span>{isWatched ? 'Unmark as watched' : 'Mark as watched'}</span>
+						</DropdownMenu.Item>
+					</DropdownMenu.Group>
+				</DropdownMenu.Content>
+			</DropdownMenu.Root>
+		</div>
 		<div class={`clapper-container ${showClapper && 'fly-in'}`}>
 			{#if showClapper}
 				<Clapper label={truncate(media.title ?? '')} />
