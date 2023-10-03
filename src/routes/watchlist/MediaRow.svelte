@@ -44,7 +44,7 @@
 			>
 				{media.title}
 			</h2>
-			<div class="flex flex-row gap-2">
+			<div class="flex flex-row flex-wrap gap-2 overflow-x-hidden">
 				{#each media?.genres ?? [] as genre}
 					<Badge variant="secondary">{genre}</Badge>
 				{/each}
