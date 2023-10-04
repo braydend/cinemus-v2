@@ -2,7 +2,7 @@
 	import MediaRow from './MediaRow.svelte';
 	import type { PageData } from './$types';
 	import Filter from './Filter.svelte';
-	import { isArray } from 'lodash';
+	import isArray from 'lodash/isArray';
 
 	export let data: PageData;
 
