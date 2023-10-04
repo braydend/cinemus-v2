@@ -15,7 +15,8 @@
 				.flatMap(({ genres }) => (genres !== undefined ? genres : []))
 				.sort((a, b) => a.localeCompare(b))
 		),
-		isWatched: new Set([true, false])
+		isWatched: new Set([true, false]),
+		type: new Set(['show', 'movie'])
 	};
 
 	type Filter = {
@@ -28,11 +29,20 @@
 	let filters = new Map<string, Filter>();
 
 	const selectFilter = (filter: Filter) => {
-		const key = `${filter.type}:${filter.value}`;
-		if (filters.has(key)) {
-			filters.delete(key);
-		} else {
-			filters.set(key, filter);
+		const key = buildKey(filter);
+		const mode = getFilterUpdateMode(key, filter);
+		switch (mode) {
+			case 'SET':
+				filters.set(key, filter);
+				break;
+
+			case 'TOGGLE':
+				filters.set(key, filter);
+				break;
+
+			case 'RESET':
+				filters.delete(key);
+				break;
 		}
 		filters = new Map(filters);
 		onFilterChange(filters);
@@ -41,6 +51,25 @@
 	const clearFilters = () => {
 		filters = new Map();
 		onFilterChange(filters);
+	};
+
+	const getFilterUpdateMode = (key: string, newValue: Filter): 'SET' | 'TOGGLE' | 'RESET' => {
+		const currentFilter = filters.get(key);
+
+		if (currentFilter === undefined) return 'SET';
+		if (currentFilter.value === newValue.value) return 'RESET';
+		return 'TOGGLE';
+	};
+
+	const buildKey = (filter: Filter): string => {
+		switch (filter.type) {
+			case 'isWatched':
+				return 'isWatched';
+			case 'type':
+				return 'type';
+			default:
+				return `${filter.type}:${filter.value}`;
+		}
 	};
 
 	const mapTypeLabel = (type: Filter['type']) => {
@@ -65,6 +94,18 @@
 		keyof typeof filterOptions,
 		Set<string>
 	][];
+
+	const isFilterSelected = <T>(filter: Filter, value?: T): boolean => {
+		const appliedFilter = filters.get(buildKey(filter));
+
+		if (appliedFilter === undefined) return false;
+
+		if (value !== undefined) {
+			return appliedFilter.value === value;
+		}
+
+		return true;
+	};
 </script>
 
 <div class="flex flex-row flex-wrap gap-4">
@@ -78,7 +119,7 @@
 					<DropdownMenu.Label>{sentenceCase(mapTypeLabel(groupName))}</DropdownMenu.Label>
 					{#each options as option}
 						<DropdownMenu.CheckboxItem
-							checked={filters.has(`${groupName}:${option}`)}
+							checked={isFilterSelected({ type: groupName, value: option }, option)}
 							on:click={() => selectFilter({ type: groupName, value: option })}
 						>
 							{sentenceCase(mapValueLabel({ type: groupName, value: option }))}
