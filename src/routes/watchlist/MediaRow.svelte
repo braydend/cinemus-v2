@@ -6,7 +6,8 @@
 	import { sentenceCase, truncate } from '$lib/utils';
 	import MenuIcon from '$lib/icons/MenuIcon.svelte';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { ClapperboardIcon } from 'lucide-svelte';
+	import { goto } from '$app/navigation';
+	import { ClapperboardIcon, SearchIcon } from 'lucide-svelte';
 
 	export let media: PageData['list'] extends readonly (infer ElementType)[] ? ElementType : never;
 
@@ -33,6 +34,10 @@
 			isLoading = false;
 		});
 	};
+
+	const handleRouteToMedia = () => {
+		goto(`/media/${media.type}/${media.tmdbID}`);
+	};
 </script>
 
 <div class="flex flex-row gap-4 items-center">
@@ -51,20 +56,24 @@
 				{/each}
 			</div>
 		</div>
-		<Button
-			class="hidden lg:block"
-			disabled={isLoading}
-			on:click={() => handleWatched()}
-			variant="secondary"
-		>
-			{isWatched ? 'Unmark as watched' : 'Mark as watched'}
-		</Button>
+		<div class="hidden lg:flex flex-row gap-4">
+			<Button on:click={() => handleRouteToMedia()} variant="secondary">See details</Button>
+			<Button disabled={isLoading} on:click={() => handleWatched()} variant="secondary">
+				{isWatched ? 'Unmark as watched' : 'Mark as watched'}
+			</Button>
+		</div>
 		<div class="lg:hidden">
 			<DropdownMenu.Root>
 				<DropdownMenu.Trigger>
 					<MenuIcon />
 				</DropdownMenu.Trigger>
 				<DropdownMenu.Content class="w-56">
+					<DropdownMenu.Group>
+						<DropdownMenu.Item on:click={() => handleRouteToMedia()}>
+							<SearchIcon class="mr-2 h-4 w-4" />
+							<span>See details</span>
+						</DropdownMenu.Item>
+					</DropdownMenu.Group>
 					<DropdownMenu.Group>
 						<DropdownMenu.Item on:click={() => handleWatched()}>
 							<ClapperboardIcon class="mr-2 h-4 w-4" />
