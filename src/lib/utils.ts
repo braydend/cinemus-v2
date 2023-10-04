@@ -65,3 +65,7 @@ export const truncate = (msg: string, maxLength = 10): string => {
 
 	return `${safeString}${elipsis}`;
 };
+
+export const sentenceCase = (msg: string): string => {
+	return `${msg[0].toUpperCase()}${msg.slice(1).toLocaleLowerCase()}`;
+};
