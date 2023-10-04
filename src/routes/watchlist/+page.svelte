@@ -21,6 +21,10 @@
 			if (isArray(fieldValue)) {
 				isValid = isValid && fieldValue.includes(value);
 			}
+
+			if (field === 'isWatched') {
+				isValid = isValid && value === fieldValue;
+			}
 		}
 
 		return isValid;

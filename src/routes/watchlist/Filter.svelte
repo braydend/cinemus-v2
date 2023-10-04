@@ -14,7 +14,8 @@
 			media
 				.flatMap(({ genres }) => (genres !== undefined ? genres : []))
 				.sort((a, b) => a.localeCompare(b))
-		)
+		),
+		isWatched: new Set([true, false])
 	};
 
 	type Filter = {
@@ -42,6 +43,24 @@
 		onFilterChange(filters);
 	};
 
+	const mapTypeLabel = (type: Filter['type']) => {
+		switch (type) {
+			case 'isWatched':
+				return 'Status';
+			default:
+				return type;
+		}
+	};
+
+	const mapValueLabel = (filter: Filter) => {
+		switch (filter.type) {
+			case 'isWatched':
+				return filter.value ? 'Watched' : 'Unwatched';
+			default:
+				return filter.value;
+		}
+	};
+
 	const filterCollections = Object.entries(filterOptions) as [
 		keyof typeof filterOptions,
 		Set<string>
@@ -56,13 +75,13 @@
 		<DropdownMenu.Content class="w-56">
 			{#each filterCollections as [groupName, options]}
 				<DropdownMenu.Group>
-					<DropdownMenu.Label>{sentenceCase(groupName)}</DropdownMenu.Label>
+					<DropdownMenu.Label>{sentenceCase(mapTypeLabel(groupName))}</DropdownMenu.Label>
 					{#each options as option}
 						<DropdownMenu.CheckboxItem
 							checked={filters.has(`${groupName}:${option}`)}
 							on:click={() => selectFilter({ type: groupName, value: option })}
 						>
-							{option}
+							{sentenceCase(mapValueLabel({ type: groupName, value: option }))}
 						</DropdownMenu.CheckboxItem>
 					{/each}
 				</DropdownMenu.Group>
@@ -71,7 +90,9 @@
 	</DropdownMenu.Root>
 	{#each Array.from(filters.entries()) as [_, filter]}
 		<button on:click={() => selectFilter(filter)}>
-			<Badge variant="secondary" class="flex flex-row gap-2"><CrossIcon />{filter.value}</Badge>
+			<Badge variant="secondary" class="flex flex-row gap-2"
+				><CrossIcon />{sentenceCase(mapValueLabel(filter))}</Badge
+			>
 		</button>
 	{/each}
 	{#if filters.size > 0}
