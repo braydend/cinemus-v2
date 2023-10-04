@@ -3,7 +3,7 @@
 	import type { PageData } from './$types';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { truncate } from '$lib/utils';
+	import { sentenceCase, truncate } from '$lib/utils';
 	import MenuIcon from '$lib/icons/MenuIcon.svelte';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { ClapperboardIcon } from 'lucide-svelte';
@@ -39,6 +39,7 @@
 	<img src={media.poster} alt={media.title} width={64} height={'auto'} />
 	<div class="flex flex-row justify-between w-full overflow-x-hidden">
 		<div>
+			<Badge class="text-white" variant="outline">{sentenceCase(media.type)}</Badge>
 			<h2
 				class="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
 			>
