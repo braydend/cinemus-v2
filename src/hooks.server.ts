@@ -1,10 +1,13 @@
 import { SvelteKitAuth } from '@auth/sveltekit';
 import GitHub from '@auth/core/providers/github';
+import Google from '@auth/core/providers/google';
 import {
 	AUTH_SECRET,
 	EMAIL_FROM,
 	GITHUB_ID,
 	GITHUB_SECRET,
+	GOOGLE_CLIENT_ID,
+	GOOGLE_CLIENT_SECRET,
 	SMTP_HOST,
 	SMTP_PASSWORD,
 	SMTP_PORT,
@@ -17,6 +20,7 @@ import Email from '@auth/core/providers/email';
 export const handle = SvelteKitAuth({
 	providers: [
 		GitHub({ clientId: GITHUB_ID, clientSecret: GITHUB_SECRET }),
+		Google({ clientId: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_CLIENT_SECRET }),
 		// TODO: Remove the ts-ignore when the package is updated
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
