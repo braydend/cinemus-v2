@@ -1,16 +1,44 @@
 <script lang="ts">
 	import MediaRow from './MediaRow.svelte';
 	import type { PageData } from './$types';
+	import Filter from './Filter.svelte';
+	import { isArray } from 'lodash';
 
 	export let data: PageData;
+
+	type Media = PageData['list'] extends readonly (infer ElementType)[] ? ElementType : never;
+
+	let mediaFilters: Map<string, { type: keyof Media; value: string }> = new Map();
+	$: filteredMedia = data.list.filter((m) => {
+		let isValid = true;
+		for (const [_, { type: field, value }] of mediaFilters) {
+			const fieldValue = m[field];
+
+			if (typeof fieldValue === 'string') {
+				isValid = isValid && fieldValue === value;
+			}
+
+			if (isArray(fieldValue)) {
+				isValid = isValid && fieldValue.includes(value);
+			}
+		}
+
+		return isValid;
+	});
 </script>
 
 <div class="p-8">
 	<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-4">
 		Your watchlist
 	</h1>
-	<div class="flex flex-col gap-4 w-full">
-		{#each data.list as media}
+	<Filter
+		media={data.list ?? []}
+		onFilterChange={(s) => {
+			mediaFilters = s;
+		}}
+	/>
+	<div class="flex flex-col gap-4 pt-4 w-full">
+		{#each filteredMedia as media}
 			<MediaRow {media} />
 		{/each}
 	</div>
