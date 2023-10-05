@@ -59,6 +59,10 @@ export const truncate = (msg: string, maxLength = 10): string => {
 	const length = msg.length;
 	const elipsis = '...';
 
+	if (maxLength < 4) {
+		throw Error('Cannot truncate string to less than 3 characters');
+	}
+
 	if (length <= maxLength) return msg;
 
 	const safeString = msg.slice(0, maxLength - elipsis.length);
