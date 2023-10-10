@@ -53,6 +53,15 @@ export const mediaRelations = relations(media, ({ many }) => ({
 	listedMedia: many(listedMedia)
 }));
 
+export const userPreferences = mysqlTable('userPreferences', {
+	userId: varchar('userId', { length: 255 }).notNull().primaryKey(),
+	region: varchar('region', { length: 5 })
+});
+
+export const userPreferencesRelations = relations(userPreferences, ({ one }) => ({
+	user: one(users)
+}));
+
 // AuthJS Tables
 export const users = mysqlTable('user', {
 	id: varchar('id', { length: 255 }).notNull().primaryKey(),
@@ -64,6 +73,12 @@ export const users = mysqlTable('user', {
 	}).defaultNow(),
 	image: varchar('image', { length: 255 })
 });
+
+export const userRelations = relations(users, ({ one, many }) => ({
+	accounts: one(accounts),
+	sessions: many(sessions),
+	preferences: one(userPreferences)
+}));
 
 export const accounts = mysqlTable(
 	'account',
@@ -84,11 +99,6 @@ export const accounts = mysqlTable(
 		compoundKey: primaryKey(account.provider, account.providerAccountId)
 	})
 );
-
-export const userRelations = relations(users, ({ one, many }) => ({
-	accounts: one(accounts),
-	sessions: many(sessions)
-}));
 
 export const accountRelations = relations(accounts, ({ one }) => ({
 	user: one(users, {
