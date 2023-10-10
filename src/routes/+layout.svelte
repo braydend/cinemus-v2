@@ -5,6 +5,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { page } from '$app/stores';
 	import { signIn, signOut } from '@auth/sveltekit/client';
+	import { SvelteToast } from '@zerodevx/svelte-toast';
 
 	const userSession = $page.data.session?.user;
 	const isAuthed = Boolean(userSession);
@@ -50,3 +51,4 @@
 	</nav>
 	<slot />
 </div>
+<SvelteToast />
