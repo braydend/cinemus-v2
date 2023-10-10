@@ -1,6 +1,8 @@
 <script>
 	import RegionSelect from '$lib/components/regionSelect/regionSelect.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { errorTheme, successTheme } from '$lib/toaster';
+	import { toast } from '@zerodevx/svelte-toast';
 
 	export let data;
 
@@ -13,11 +15,11 @@
 		});
 
 		if (resp.ok) {
-			console.log('OK');
+			toast.push('Saved changes!', { theme: successTheme });
 			return;
 		}
 
-		console.error(await resp.json());
+		toast.push('Something went wrong!', { theme: errorTheme });
 	};
 </script>
 
