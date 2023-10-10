@@ -1,12 +1,12 @@
 <script lang="ts">
 	import ProviderList from './ProviderList.svelte';
-	import * as Select from '$lib/components/ui/select';
 	import * as Alert from '$lib/components/ui/alert';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import RegionSelect from '$lib/components/regionSelect/regionSelect.svelte';
 
 	export let data;
 
-	let selectedRegion = '';
+	let selectedRegion = data.region?.value ?? '';
 
 	const mediaData = {
 		title: data.media.__type === 'show' ? data.media.name : data.media.title,
@@ -72,22 +72,11 @@
 			>
 				Providers
 			</h2>
-			<Select.Root
-				onSelectedChange={(a) => {
-					selectedRegion = a?.value?.toString() ?? '';
-				}}
-			>
-				<Select.Trigger class="w-1/2 md:w-1/3 bg-gray-800 text-white border-gray-900">
-					<Select.Value placeholder="Region" />
-				</Select.Trigger>
-				<Select.Content
-					class="bg-gray-800 text-white border-gray-900 overflow-y-scroll max-h-[30vh]"
-				>
-					{#each data.regions.results as region}
-						<Select.Item value={region.iso_3166_1}>{region.english_name}</Select.Item>
-					{/each}
-				</Select.Content>
-			</Select.Root>
+			<!-- TODO: Preselect based on user preferences -->
+			<RegionSelect
+				selectedRegion={data.region}
+				onSelect={(selection) => (selectedRegion = selection.value)}
+			/>
 		</div>
 		{#if !providers}
 			<Alert.Root variant="destructive" class="my-4">
