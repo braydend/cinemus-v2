@@ -9,7 +9,10 @@
 	import { goto } from '$app/navigation';
 	import { ClapperboardIcon, SearchIcon } from 'lucide-svelte';
 
-	export let media: PageData['list'] extends readonly (infer ElementType)[] ? ElementType : never;
+	type Media = PageData['list'] extends readonly (infer ElementType)[] ? ElementType : never;
+
+	export let media: Media;
+	export let onWatchedToggle: (media: Media) => void;
 
 	let showClapper = false;
 
@@ -30,6 +33,8 @@
 					}, 3500);
 				}
 				isWatched = !isWatched;
+
+				onWatchedToggle({ ...media, isWatched });
 			}
 			isLoading = false;
 		});
