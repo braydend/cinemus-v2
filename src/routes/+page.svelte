@@ -23,7 +23,9 @@
 
 	const handleTypeChange = (newType: string) => {
 		type = newType;
-		updateSearchPromise();
+		if (query.length > 0) {
+			updateSearchPromise();
+		}
 	};
 </script>
 
