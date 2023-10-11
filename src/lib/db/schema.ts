@@ -8,15 +8,64 @@ import {
 	text
 } from 'drizzle-orm/mysql-core';
 import type { AdapterAccount } from '@auth/core/adapters';
-import { relations } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
+import { createId } from '@paralleldrive/cuid2';
+
+export const watchParty = mysqlTable('watchParty', {
+	id: varchar('id', { length: 128 })
+		.$defaultFn(() => createId())
+		.primaryKey(),
+	createdAt: timestamp('createdAt').defaultNow(),
+	updatedAt: timestamp('updatedAt').onUpdateNow()
+});
+
+export const watchPartyRelations = relations(watchParty, ({ many }) => ({
+	watchPartyUsers: many(watchPartyUser)
+}));
+
+export const watchPartyUser = mysqlTable(
+	'watchPartyUser',
+	{
+		watchPartyId: varchar('watchPartyId', { length: 128 }),
+		userId: varchar('userId', { length: 255 })
+	},
+	(watchPartyUser) => ({
+		compoundKey: primaryKey(watchPartyUser.watchPartyId, watchPartyUser.userId)
+	})
+);
+
+export const watchPartyUserRelations = relations(watchPartyUser, ({ one }) => ({
+	user: one(users, {
+		fields: [watchPartyUser.userId],
+		references: [users.id]
+	}),
+	watchParty: one(watchParty, {
+		fields: [watchPartyUser.watchPartyId],
+		references: [watchParty.id]
+	})
+}));
+
+export const watchPartyInvite = mysqlTable('watchPartyInvite', {
+	id: varchar('id', { length: 128 })
+		.$defaultFn(() => createId())
+		.primaryKey(),
+	watchPartyId: varchar('watchPartyId', { length: 128 }).notNull(),
+	createdAt: timestamp('createdAt').defaultNow(),
+	expiresAt: timestamp('expiresAt').default(sql`(DATE_ADD(NOW(), INTERVAL 60 MINUTE))`)
+});
+
+export const watchPartyInviteRelations = relations(watchPartyInvite, ({ one }) => ({
+	watchParty: one(watchParty)
+}));
 
 export const watchlist = mysqlTable('watchlist', {
 	id: int('id').autoincrement().primaryKey(),
-	userId: varchar('userid', { length: 255 }).notNull()
+	userId: varchar('userId', { length: 255 }).notNull()
 });
 
-export const watchlistRelations = relations(watchlist, ({ many }) => ({
-	listedMedia: many(listedMedia)
+export const watchlistRelations = relations(watchlist, ({ many, one }) => ({
+	listedMedia: many(listedMedia),
+	user: one(users)
 }));
 
 export const listedMedia = mysqlTable(
@@ -77,7 +126,9 @@ export const users = mysqlTable('user', {
 export const userRelations = relations(users, ({ one, many }) => ({
 	accounts: one(accounts),
 	sessions: many(sessions),
-	preferences: one(userPreferences)
+	preferences: one(userPreferences),
+	watchlist: one(watchlist),
+	watchParties: many(watchPartyUser)
 }));
 
 export const accounts = mysqlTable(
