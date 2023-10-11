@@ -6,10 +6,12 @@
 
 	export let data: PageData;
 
+	let list = data.list;
+
 	type Media = PageData['list'] extends readonly (infer ElementType)[] ? ElementType : never;
 
 	let mediaFilters: Map<string, { type: keyof Media; value: string }> = new Map();
-	$: filteredMedia = data.list.filter((m) => {
+	$: filteredMedia = list.filter((m) => {
 		let isValid = true;
 		for (const [_, { type: field, value }] of mediaFilters) {
 			const fieldValue = m[field];
@@ -29,6 +31,14 @@
 
 		return isValid;
 	});
+
+	const handleToggleWatched = (toggledMedia: Media) => {
+		list = list.map((existingMedia) =>
+			existingMedia.tmdbID === toggledMedia.tmdbID && existingMedia.type === toggledMedia.type
+				? toggledMedia
+				: existingMedia
+		);
+	};
 </script>
 
 <div class="p-8">
@@ -36,14 +46,14 @@
 		Your watchlist
 	</h1>
 	<Filter
-		media={data.list ?? []}
+		media={list ?? []}
 		onFilterChange={(s) => {
 			mediaFilters = s;
 		}}
 	/>
 	<div class="flex flex-col gap-4 pt-4 w-full">
 		{#each filteredMedia as media}
-			<MediaRow {media} />
+			<MediaRow {media} onWatchedToggle={handleToggleWatched} />
 		{/each}
 	</div>
 </div>
