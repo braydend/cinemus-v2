@@ -45,6 +45,8 @@
 	};
 </script>
 
+<!-- TODO: Split into more generic component (for watch party) and watchlist specific component -->
+
 <div class="flex flex-row gap-4 items-center">
 	<img src={media.poster} alt={media.title} width={64} height={'auto'} />
 	<div class="flex flex-row justify-between w-full overflow-x-hidden">

@@ -8,6 +8,8 @@
 
 	let list = data.list;
 
+	console.log(list);
+
 	type Media = PageData['list'] extends readonly (infer ElementType)[] ? ElementType : never;
 
 	let mediaFilters: Map<string, { type: keyof Media; value: string }> = new Map();
@@ -45,6 +47,9 @@
 	<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-4">
 		Your watchlist
 	</h1>
+	<div>
+		<span>Watching with someone else? </span><a href="/watch-party/create">Start a watch party!</a>
+	</div>
 	<Filter
 		media={list ?? []}
 		onFilterChange={(s) => {
