@@ -1,8 +1,8 @@
 <script lang="ts">
-	import MediaRow from './MediaRow.svelte';
 	import type { PageData } from './$types';
 	import Filter from './Filter.svelte';
 	import isArray from 'lodash/isArray';
+	import WatchlistMediaRow from '$lib/components/mediaRow/WatchlistMediaRow.svelte';
 
 	export let data: PageData;
 
@@ -36,7 +36,7 @@
 
 	const handleToggleWatched = (toggledMedia: Media) => {
 		list = list.map((existingMedia) =>
-			existingMedia.tmdbID === toggledMedia.tmdbID && existingMedia.type === toggledMedia.type
+			existingMedia.tmdbId === toggledMedia.tmdbId && existingMedia.type === toggledMedia.type
 				? toggledMedia
 				: existingMedia
 		);
@@ -58,7 +58,7 @@
 	/>
 	<div class="flex flex-col gap-4 pt-4 w-full">
 		{#each filteredMedia as media}
-			<MediaRow {media} onWatchedToggle={handleToggleWatched} />
+			<WatchlistMediaRow {media} onWatchedToggle={handleToggleWatched} />
 		{/each}
 	</div>
 </div>

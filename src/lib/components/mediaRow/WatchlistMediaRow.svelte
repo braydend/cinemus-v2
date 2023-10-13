@@ -1,18 +1,17 @@
 <script lang="ts">
+	import BaseMediaRow from './BaseMediaRow.svelte';
+	import type { ArrayElement, HydratedList, HydratedMedia } from '$lib/types';
 	import Clapper from './Clapper.svelte';
-	import type { PageData } from './$types';
-	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { sentenceCase, truncate } from '$lib/utils';
+	import { truncate } from '$lib/utils';
 	import MenuIcon from '$lib/icons/MenuIcon.svelte';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { goto } from '$app/navigation';
 	import { ClapperboardIcon, SearchIcon } from 'lucide-svelte';
 
-	type Media = PageData['list'] extends readonly (infer ElementType)[] ? ElementType : never;
+	export let media: ArrayElement<HydratedList>;
 
-	export let media: Media;
-	export let onWatchedToggle: (media: Media) => void;
+	export let onWatchedToggle: (media: ArrayElement<HydratedList>) => void;
 
 	let showClapper = false;
 
@@ -41,28 +40,12 @@
 	};
 
 	const handleRouteToMedia = () => {
-		goto(`/media/${media.type}/${media.tmdbID}`);
+		goto(`/media/${media.type}/${media.tmdbId}`);
 	};
 </script>
 
-<!-- TODO: Split into more generic component (for watch party) and watchlist specific component -->
-
-<div class="flex flex-row gap-4 items-center">
-	<img src={media.poster} alt={media.title} width={64} height={'auto'} />
-	<div class="flex flex-row justify-between w-full overflow-x-hidden">
-		<div>
-			<Badge class="text-white" variant="outline">{sentenceCase(media.type)}</Badge>
-			<h2
-				class="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
-			>
-				{media.title}
-			</h2>
-			<div class="flex flex-row flex-wrap gap-2 overflow-x-hidden">
-				{#each media?.genres ?? [] as genre}
-					<Badge variant="secondary">{genre}</Badge>
-				{/each}
-			</div>
-		</div>
+<BaseMediaRow {media}>
+	<div slot="actions">
 		<div class="hidden lg:flex flex-row gap-4">
 			<Button on:click={() => handleRouteToMedia()} variant="secondary">See details</Button>
 			<Button disabled={isLoading} on:click={() => handleWatched()} variant="secondary">
@@ -99,7 +82,7 @@
 			<p>Rated: {media.rating}</p>
 		{/if}
 	</div>
-</div>
+</BaseMediaRow>
 
 <style>
 	.clapper-container {
