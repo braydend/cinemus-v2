@@ -7,7 +7,7 @@ import {
 	watchPartyUser,
 	watchlist
 } from '$lib/db/schema.js';
-import { hydrateMedia } from '$lib/hydrater.js';
+import { hydrateMedia } from '$lib/hydrater';
 import type { CustomSession, HydratedMedia, Media } from '$lib/types';
 import { error } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
@@ -81,5 +81,5 @@ export async function load({ params, locals }) {
 		return acc.set(mediaKey, currentMediaRecord);
 	}, new Map<string, { media: HydratedMedia; users: { id: string; image: string; name: string }[] }>());
 
-	return { media: Array.from(watchPartyMedia.values()) };
+	return { media: Array.from(watchPartyMedia.values()), id };
 }
