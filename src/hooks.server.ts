@@ -16,8 +16,16 @@ import {
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import { db } from '$lib/db';
 import Email from '@auth/core/providers/email';
+import { sequence } from '@sveltejs/kit/hooks';
+import type { Handle } from '@sveltejs/kit';
 
-export const handle = SvelteKitAuth({
+const logger: Handle = ({ event, resolve }) => {
+	console.log(`${event.request.method}: ${event.request.url}`);
+
+	return resolve(event);
+};
+
+const auth = SvelteKitAuth({
 	providers: [
 		GitHub({ clientId: GITHUB_ID, clientSecret: GITHUB_SECRET }),
 		Google({ clientId: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_CLIENT_SECRET }),
@@ -48,3 +56,5 @@ export const handle = SvelteKitAuth({
 		})
 	}
 });
+
+export const handle = sequence(logger, auth);
