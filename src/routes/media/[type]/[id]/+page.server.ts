@@ -25,18 +25,32 @@ export async function load({ params, locals }) {
 		: undefined;
 	const regionsPromise = getWatchProviderRegions();
 	const configPromise = getConfiguration();
-	const isListedPromise = db
-		.select()
-		.from(listedMedia)
-		.innerJoin(
-			media,
-			and(
-				eq(listedMedia.mediaId, media.id),
-				eq(media.tmdbId, Number(id)),
-				eq(media.type, type as 'movie' | 'show')
-			)
-		)
-		.innerJoin(watchlist, eq(watchlist.id, listedMedia.watchlistId));
+	const isListedPromise = userId
+		? db
+				.select()
+				.from(listedMedia)
+				.where(eq(watchlist.userId, userId))
+				.innerJoin(
+					media,
+					and(
+						eq(listedMedia.mediaId, media.id),
+						eq(media.tmdbId, Number(id)),
+						eq(media.type, type as 'movie' | 'show')
+					)
+				)
+				.leftJoin(watchlist, and(eq(watchlist.id, listedMedia.watchlistId)))
+		: db
+				.select()
+				.from(listedMedia)
+				.innerJoin(
+					media,
+					and(
+						eq(listedMedia.mediaId, media.id),
+						eq(media.tmdbId, Number(id)),
+						eq(media.type, type as 'movie' | 'show')
+					)
+				)
+				.innerJoin(watchlist, eq(watchlist.id, listedMedia.watchlistId));
 
 	if (type === 'show') {
 		const result = await getShow(id);
