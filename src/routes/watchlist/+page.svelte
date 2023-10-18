@@ -3,12 +3,11 @@
 	import Filter from './Filter.svelte';
 	import isArray from 'lodash/isArray';
 	import WatchlistMediaRow from '$lib/components/mediaRow/WatchlistMediaRow.svelte';
+	import * as Avatar from '$lib/components/ui/avatar';
 
 	export let data: PageData;
 
 	let list = data.list;
-
-	console.log(list);
 
 	type Media = PageData['list'] extends readonly (infer ElementType)[] ? ElementType : never;
 
@@ -44,11 +43,13 @@
 </script>
 
 <div class="p-8">
-	<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-4">
-		Your watchlist
-	</h1>
-	<div>
-		<span>Watching with someone else? </span><a href="/watch-party/create">Start a watch party!</a>
+	<div class="md:flex md:justify-between">
+		<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-4 self-end">
+			Your watchlist
+		</h1>
+		<span>
+			Watching with someone else? <a href="/watch-party" class="underline">Try a watch party!</a>
+		</span>
 	</div>
 	<Filter
 		media={list ?? []}
