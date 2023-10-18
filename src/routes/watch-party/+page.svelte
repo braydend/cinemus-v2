@@ -37,7 +37,5 @@
 				</li>
 			{/each}
 		</ul>
-	{:else}
-		<span>Watching with someone else? </span>
 	{/if}
 </div>
