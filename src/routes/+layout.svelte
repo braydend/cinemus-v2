@@ -38,6 +38,8 @@
 					<DropdownMenu.Content>
 						<DropdownMenu.Group>
 							<DropdownMenu.Item><a href="/watchlist">Watchlist</a></DropdownMenu.Item>
+							<DropdownMenu.Item><a href="/watch-party">Watch parties</a></DropdownMenu.Item>
+							<DropdownMenu.Separator />
 							<DropdownMenu.Item><a href="/user/preferences">Preferences</a></DropdownMenu.Item>
 							<DropdownMenu.Separator />
 							<DropdownMenu.Item on:click={handleLogout}>Logout</DropdownMenu.Item>

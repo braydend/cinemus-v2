@@ -17,6 +17,34 @@ export async function load({ locals }) {
 		with: { listedMedia: { with: { media: true } } }
 	});
 
+	// const watchParties = await db
+	// 	.select({
+	// 		partyMemberId: users.id,
+	// 		userName: users.name,
+	// 		userImage: users.image,
+	// 		id: watchParty.id
+	// 	})
+	// 	.from(watchParty)
+	// 	.leftJoin(watchPartyUser, eq(watchPartyUser.watchPartyId, watchParty.id))
+	// 	.leftJoin(users, eq(users.id, watchPartyUser.userId));
+
+	// const usersWatchParties = watchParties.reduce<Map<string, Map<string, string>>>(
+	// 	(acc, { partyMemberId, userName, userImage, id }) => {
+	// 		if (!userName || !userImage) return acc;
+	// 		if (partyMemberId === userId) return acc;
+
+	// 		if (acc.has(id)) {
+	// 			acc.get(id)?.set(userName, userImage);
+	// 			return acc;
+	// 		}
+
+	// 		acc.set(id, new Map().set(userName, userImage));
+
+	// 		return acc;
+	// 	},
+	// 	new Map<string, Map<string, string>>()
+	// );
+
 	const hydratedList = await hydrateList(list?.listedMedia ?? []);
 
 	return { list: hydratedList };
