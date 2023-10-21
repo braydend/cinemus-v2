@@ -15,6 +15,7 @@
 				.flatMap(({ genres }) => (genres !== undefined ? genres : []))
 				.sort((a, b) => a.localeCompare(b))
 		),
+		// TODO: Use radio group for these
 		isWatched: new Set([true, false]),
 		type: new Set(['show', 'movie'])
 	};
