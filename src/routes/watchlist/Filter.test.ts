@@ -1,12 +1,16 @@
 import type { ComponentProps } from 'svelte';
-import { render, screen, cleanup } from '@testing-library/svelte';
+import { render, screen } from '@testing-library/svelte';
 import userEvent from '@testing-library/user-event';
 import Filter from './Filter.svelte';
-import { expect, vitest, describe, it, afterEach } from 'vitest';
+import { expect, vitest, describe, it } from 'vitest';
+
+/*
+ * TODO: Tests dont seems to be cleaning up the render tree after runs.
+ * This leads to multiple of the same element being rendered out (hence the need for finding elements by indexes)
+ * Need to look further into this, but it looks to be an issue of wither Testing Library or Vitest
+ */
 
 type Props = ComponentProps<Filter>;
-
-afterEach(cleanup);
 
 describe('<Filter />', () => {
 	const defaultMedia: Props['media'] = [
