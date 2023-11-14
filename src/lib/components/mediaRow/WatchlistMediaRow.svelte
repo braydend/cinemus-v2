@@ -1,6 +1,6 @@
 <script lang="ts">
 	import BaseMediaRow from './BaseMediaRow.svelte';
-	import type { ArrayElement, HydratedList, HydratedMedia } from '$lib/types';
+	import type { ArrayElement, HydratedList } from '$lib/types';
 	import Clapper from './Clapper.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { truncate } from '$lib/utils';
