@@ -54,7 +54,7 @@
 		</div>
 		<div class="lg:hidden">
 			<DropdownMenu.Root>
-				<DropdownMenu.Trigger>
+				<DropdownMenu.Trigger aria-label="actions">
 					<MenuIcon />
 				</DropdownMenu.Trigger>
 				<DropdownMenu.Content class="w-56">
