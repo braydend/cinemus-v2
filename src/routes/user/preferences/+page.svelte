@@ -26,8 +26,9 @@
 <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-4">Preferences</h1>
 <div class="flex flex-col gap-4">
 	<div>
-		<label>Region:</label>
+		<label for="region-select">Region:</label>
 		<RegionSelect
+			id="region-select"
 			{selectedRegion}
 			onSelect={(selection) => {
 				selectedRegion = selection;

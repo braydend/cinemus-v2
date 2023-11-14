@@ -3,7 +3,6 @@
 	import Filter from './Filter.svelte';
 	import isArray from 'lodash/isArray';
 	import WatchlistMediaRow from '$lib/components/mediaRow/WatchlistMediaRow.svelte';
-	import * as Avatar from '$lib/components/ui/avatar';
 
 	export let data: PageData;
 

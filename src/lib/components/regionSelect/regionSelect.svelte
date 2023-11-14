@@ -7,6 +7,7 @@
 
 	export let selectedRegion = { value: '', label: '' };
 	export let onSelect: ({ label, value }: SelectOption) => void;
+	export let id: string;
 
 	let regions: TmdbWatchProviderRegion[] = [];
 
@@ -36,7 +37,7 @@
 	disabled={isLoading}
 	selected={selectedRegion}
 >
-	<Select.Trigger class="w-1/2 md:w-1/3 bg-gray-800 text-white border-gray-900">
+	<Select.Trigger {id} class="w-1/2 md:w-1/3 bg-gray-800 text-white border-gray-900">
 		<Select.Value placeholder="Region" />
 	</Select.Trigger>
 	<Select.Content class="bg-gray-800 text-white border-gray-900 overflow-y-scroll max-h-[30vh]">
