@@ -34,7 +34,7 @@
 	};
 </script>
 
-<main class="p-8 bg-black text-white">
+<main class="bg-black text-white">
 	<div class="grid md:grid-cols-4 md:grid-rows-1 border-b pb-4">
 		<img
 			class="place-self-center pb-4"

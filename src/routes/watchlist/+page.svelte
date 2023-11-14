@@ -42,24 +42,22 @@
 	};
 </script>
 
-<div class="p-8">
-	<div class="md:flex md:justify-between">
-		<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-4 self-end">
-			Your watchlist
-		</h1>
-		<span>
-			Watching with someone else? <a href="/watch-party" class="underline">Try a watch party!</a>
-		</span>
-	</div>
-	<Filter
-		media={list ?? []}
-		onFilterChange={(s) => {
-			mediaFilters = s;
-		}}
-	/>
-	<div class="flex flex-col gap-4 pt-4 w-full">
-		{#each filteredMedia as media}
-			<WatchlistMediaRow {media} onWatchedToggle={handleToggleWatched} />
-		{/each}
-	</div>
+<div class="md:flex md:justify-between">
+	<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-4 self-end">
+		Your watchlist
+	</h1>
+	<span>
+		Watching with someone else? <a href="/watch-party" class="underline">Try a watch party!</a>
+	</span>
+</div>
+<Filter
+	media={list ?? []}
+	onFilterChange={(s) => {
+		mediaFilters = s;
+	}}
+/>
+<div class="flex flex-col gap-4 pt-4 w-full">
+	{#each filteredMedia as media}
+		<WatchlistMediaRow {media} onWatchedToggle={handleToggleWatched} />
+	{/each}
 </div>

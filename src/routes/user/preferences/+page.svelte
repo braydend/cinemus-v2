@@ -23,20 +23,18 @@
 	};
 </script>
 
-<div class="p-4">
-	<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-4">Preferences</h1>
-	<div class="flex flex-col gap-4">
-		<div>
-			<label>Region:</label>
-			<RegionSelect
-				{selectedRegion}
-				onSelect={(selection) => {
-					selectedRegion = selection;
-				}}
-			/>
-		</div>
-		<div>
-			<Button on:click={() => handleSave()}>Save changes</Button>
-		</div>
+<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-4">Preferences</h1>
+<div class="flex flex-col gap-4">
+	<div>
+		<label>Region:</label>
+		<RegionSelect
+			{selectedRegion}
+			onSelect={(selection) => {
+				selectedRegion = selection;
+			}}
+		/>
+	</div>
+	<div>
+		<Button on:click={() => handleSave()}>Save changes</Button>
 	</div>
 </div>

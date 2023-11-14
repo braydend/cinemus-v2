@@ -14,28 +14,26 @@
 	};
 </script>
 
-<div class="p-8">
-	<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-4 self-end">
-		Your watch parties
-	</h1>
-	<Button variant="secondary" on:click={handleCreateNewParty}>
-		Start a{watchPartyCount > 0 ? 'nother' : ''} watch party!
-	</Button>
-	{#if watchPartyCount}
-		<ul class="flex flex-col gap-4 pt-4">
-			{#each data.watchParties as [id, users]}
-				<li class="flex flex-row gap-4 items-center">
-					{#each users as [name, image]}
-						<Avatar.Root>
-							<Avatar.Image src={image} alt={name} />
-							<Avatar.Fallback>{name}</Avatar.Fallback>
-						</Avatar.Root>
-					{/each}
-					<a href={`/watch-party/${id}`} class="underline"
-						>{listFormat.format(['You', ...Array.from(users.keys())])}</a
-					>
-				</li>
-			{/each}
-		</ul>
-	{/if}
-</div>
+<h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-4 self-end">
+	Your watch parties
+</h1>
+<Button variant="secondary" on:click={handleCreateNewParty}>
+	Start a{watchPartyCount > 0 ? 'nother' : ''} watch party!
+</Button>
+{#if watchPartyCount}
+	<ul class="flex flex-col gap-4 pt-4">
+		{#each data.watchParties as [id, users]}
+			<li class="flex flex-row gap-4 items-center">
+				{#each users as [name, image]}
+					<Avatar.Root>
+						<Avatar.Image src={image} alt={name} />
+						<Avatar.Fallback>{name}</Avatar.Fallback>
+					</Avatar.Root>
+				{/each}
+				<a href={`/watch-party/${id}`} class="underline"
+					>{listFormat.format(['You', ...Array.from(users.keys())])}</a
+				>
+			</li>
+		{/each}
+	</ul>
+{/if}

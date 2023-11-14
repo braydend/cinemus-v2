@@ -51,6 +51,8 @@
 			{/if}
 		</div>
 	</nav>
-	<slot />
+	<div class="p-8">
+		<slot />
+	</div>
 </div>
 <SvelteToast />
