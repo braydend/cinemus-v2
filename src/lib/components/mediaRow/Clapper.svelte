@@ -2,7 +2,7 @@
 	export let label: string;
 </script>
 
-<div class="container">
+<div class="container" data-testid="clapper">
 	<div class="clapper">
 		<div class="top" />
 		<div class="bottom" />
