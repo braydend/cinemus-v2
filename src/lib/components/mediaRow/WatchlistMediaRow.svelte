@@ -20,10 +20,13 @@
 
 	const handleWatched = () => {
 		isLoading = true;
-		fetch('/watchlist/watch', {
-			method: 'POST',
-			body: JSON.stringify({ mediaId: media.mediaId })
-		}).then(({ ok }) => {
+		fetch(
+			new URL('/watchlist/watch', typeof location !== 'undefined' ? location.origin : undefined),
+			{
+				method: 'POST',
+				body: JSON.stringify({ mediaId: media.mediaId })
+			}
+		).then(({ ok }) => {
 			if (ok) {
 				if (!isWatched) {
 					showClapper = true;
