@@ -19,14 +19,14 @@ describe('<WatchlistMediaRow />', () => {
 			}
 		});
 
-		expect(screen.getByText('Movie')).toBeTruthy();
-		expect(screen.getByRole('heading', { level: 2, name: 'Mock Movie' })).toBeTruthy();
-		expect(screen.getByText('Action')).toBeTruthy();
-		expect(screen.getByText('Comedy')).toBeTruthy();
+		expect(screen.getByText('Movie')).toBeInTheDocument();
+		expect(screen.getByRole('heading', { level: 2, name: 'Mock Movie' })).toBeInTheDocument();
+		expect(screen.getByText('Action')).toBeInTheDocument();
+		expect(screen.getByText('Comedy')).toBeInTheDocument();
 
 		await user.click(screen.getByRole('button', { name: 'actions' }));
-		expect(screen.getByRole('menuitem', { name: 'See details' })).toBeTruthy();
-		expect(screen.getByRole('menuitem', { name: 'Mark as watched' })).toBeTruthy();
+		expect(screen.getByRole('menuitem', { name: 'See details' })).toBeInTheDocument();
+		expect(screen.getByRole('menuitem', { name: 'Mark as watched' })).toBeInTheDocument();
 	});
 
 	it('shows clapper when media is marked as watched', async () => {
@@ -51,7 +51,7 @@ describe('<WatchlistMediaRow />', () => {
 		await user.click(screen.getByRole('button', { name: 'Mark as watched' }));
 
 		expect(mockOnWatched).toHaveBeenCalled();
-		expect(await screen.findByTestId('clapper')).toBeTruthy();
+		expect(await screen.findByTestId('clapper')).toBeInTheDocument();
 	});
 
 	it('does not show clapper when media is unmarked as watched', async () => {
@@ -76,6 +76,6 @@ describe('<WatchlistMediaRow />', () => {
 		await user.click(screen.getByRole('button', { name: 'Unmark as watched' }));
 
 		expect(mockOnWatched).toHaveBeenCalled();
-		expect(screen.queryByTestId('clapper')).toBeFalsy();
+		expect(screen.queryByTestId('clapper')).not.toBeInTheDocument();
 	});
 });
