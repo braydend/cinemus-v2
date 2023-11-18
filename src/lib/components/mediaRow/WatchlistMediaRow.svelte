@@ -8,6 +8,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { goto } from '$app/navigation';
 	import { ClapperboardIcon, SearchIcon } from 'lucide-svelte';
+	import { post } from '$lib/fetch';
 
 	export let media: ArrayElement<HydratedList>;
 
@@ -20,13 +21,9 @@
 
 	const handleWatched = () => {
 		isLoading = true;
-		fetch(
-			new URL('/watchlist/watch', typeof location !== 'undefined' ? location.origin : undefined),
-			{
-				method: 'POST',
-				body: JSON.stringify({ mediaId: media.mediaId })
-			}
-		).then(({ ok }) => {
+		post('/watchlist/watch', {
+			mediaId: media.mediaId
+		}).then(({ ok }) => {
 			if (ok) {
 				if (!isWatched) {
 					showClapper = true;
