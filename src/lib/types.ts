@@ -1,6 +1,7 @@
 import type { DefaultSession } from '@auth/core/types';
 import type { InferModelFromColumns } from 'drizzle-orm';
 import type { listedMedia, media } from './db/schema';
+import type { TmdbSearchMovieResult, TmdbSearchShowResult } from './tmdb/types';
 
 export type ArrayElement<T> = T extends readonly (infer ElementType)[] ? ElementType : never;
 
@@ -24,3 +25,5 @@ export type HydratedList = ({
 	isWatched?: boolean;
 	rating?: number;
 } & HydratedMedia)[];
+
+export type SearchResults = ((TmdbSearchShowResult | TmdbSearchMovieResult) & { poster: string })[];
