@@ -111,10 +111,10 @@ interface LastEpisodeToAir {
 	air_date: string;
 	episode_number: number;
 	production_code: string;
-	runtime: null;
+	runtime: number;
 	season_number: number;
 	show_id: number;
-	still_path: null;
+	still_path: string;
 }
 
 interface Season {
@@ -123,7 +123,7 @@ interface Season {
 	id: number;
 	name: string;
 	overview: string;
-	poster_path: null;
+	poster_path: string;
 	season_number: number;
 }
 
