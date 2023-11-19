@@ -110,10 +110,10 @@
 
 <div class="flex flex-row flex-wrap gap-4">
 	<DropdownMenu.Root>
-		<DropdownMenu.Trigger>
-			<Button>Filters</Button>
+		<DropdownMenu.Trigger asChild let:builder>
+			<Button builders={[builder]}>Filters</Button>
 		</DropdownMenu.Trigger>
-		<DropdownMenu.Content class="w-56">
+		<DropdownMenu.Content class="w-56 overflow-y-scroll">
 			{#each filterCollections as [groupName, options]}
 				<DropdownMenu.Group>
 					<DropdownMenu.Label>{sentenceCase(mapTypeLabel(groupName))}</DropdownMenu.Label>
