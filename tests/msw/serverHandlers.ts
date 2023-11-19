@@ -2,6 +2,7 @@ import type { SearchResults } from '$lib/types';
 import { http, HttpResponse } from 'msw';
 import { searchShowMocks } from './mocks/shows';
 import { searchMovieMocks } from './mocks/movies';
+import { watchProviderRegions } from './mocks/regions';
 
 export const serverHandlers = [
 	http.post('/watchlist/watch', async () => {
@@ -28,5 +29,6 @@ export const serverHandlers = [
 		}));
 
 		return HttpResponse.json({ results });
-	})
+	}),
+	http.get('/regions', () => HttpResponse.json({ results: watchProviderRegions }))
 ];
