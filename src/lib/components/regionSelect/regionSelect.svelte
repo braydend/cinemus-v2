@@ -2,6 +2,7 @@
 	import * as Select from '$lib/components/ui/select';
 	import type { TmdbWatchProviderRegion, TmdbWatchProviderRegionsResponse } from '$lib/tmdb';
 	import { onMount } from 'svelte';
+	import { get } from '$lib/fetch';
 
 	type SelectOption = { label: string; value: string };
 
@@ -12,7 +13,7 @@
 	let regions: TmdbWatchProviderRegion[] = [];
 
 	onMount(async () => {
-		const response: { regions: TmdbWatchProviderRegionsResponse } = await fetch('/regions').then(
+		const response: { regions: TmdbWatchProviderRegionsResponse } = await get('/regions').then(
 			(r) => r.json()
 		);
 
