@@ -3,12 +3,16 @@
 	import * as Avatar from '$lib/components/ui/avatar';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { page } from '$app/stores';
+	import { navigating, page } from '$app/stores';
 	import { signIn, signOut } from '@auth/sveltekit/client';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
 
 	const userSession = $page.data.session?.user;
 	const isAuthed = Boolean(userSession);
+	$: isNavigating = false;
+	navigating.subscribe((nav) => {
+		isNavigating = Boolean(nav?.to);
+	});
 
 	const handleLogin = () => {
 		signIn();
@@ -20,6 +24,12 @@
 </script>
 
 <div class="h-screen bg-black text-white overflow-y-scroll">
+	<div
+		class="nav-loader"
+		style={`--loadingWidth:${isNavigating ? '100%' : '0%'}; --loadingAnimation:${
+			isNavigating ? 'width 5s ease-in' : 'none'
+		}`}
+	/>
 	<nav
 		class="w-full h-16 flex flex-row justify-between px-4 border-b-[0.5px] border-gray-600 bg-black sticky top-0"
 	>
@@ -56,3 +66,24 @@
 	</div>
 </div>
 <SvelteToast />
+
+<style>
+	.nav-loader {
+		height: 0.5rem;
+		position: absolute;
+		top: 0px;
+		z-index: 100;
+		width: var(--loadingWidth);
+		background-image: linear-gradient(
+			to right,
+			#4e295a 0%,
+			#79609f 17%,
+			#ae87bd 34%,
+			#cab1d5 51%,
+			#d69fb3 68%,
+			#e2bcae 85%,
+			#f8d089 102%
+		);
+		transition: var(--loadingAnimation);
+	}
+</style>
