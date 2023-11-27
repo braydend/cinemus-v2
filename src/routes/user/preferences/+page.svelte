@@ -1,17 +1,20 @@
 <script>
 	import RegionSelect from '$lib/components/regionSelect/regionSelect.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
 	import { errorTheme, successTheme } from '$lib/toaster';
 	import { toast } from '@zerodevx/svelte-toast';
 
 	export let data;
 
 	let selectedRegion = data.region ?? { value: '', label: '' };
+	let username = data.userName ?? '';
 
 	const handleSave = async () => {
 		const resp = await fetch('/user/preferences', {
 			method: 'POST',
-			body: JSON.stringify({ region: selectedRegion.value })
+			body: JSON.stringify({ region: selectedRegion.value, username })
 		});
 
 		if (resp.ok) {
@@ -26,9 +29,13 @@
 <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-4">Preferences</h1>
 <div class="flex flex-col gap-4">
 	<div>
-		<label for="region-select">Region:</label>
+		<Label for="username">Username:</Label>
+		<Input type="text" id="username" bind:value={username} />
+	</div>
+	<div>
+		<Label for="region">Region:</Label>
 		<RegionSelect
-			id="region-select"
+			id="region"
 			{selectedRegion}
 			onSelect={(selection) => {
 				selectedRegion = selection;
