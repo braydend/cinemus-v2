@@ -27,7 +27,7 @@
 	<div
 		class="nav-loader"
 		style={`--loadingWidth:${isNavigating ? '100%' : '0%'}; --loadingAnimation:${
-			isNavigating ? 'width 5s ease-in' : 'none'
+			isNavigating ? 'width 5s ease-out' : 'none'
 		}`}
 	/>
 	<nav
