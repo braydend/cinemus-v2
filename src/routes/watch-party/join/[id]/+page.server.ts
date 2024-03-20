@@ -31,7 +31,7 @@ export const load = async ({ params, locals }) => {
 			mediaType: media.type
 		})
 		.from(watchPartyInvite)
-		.where(and(eq(watchPartyInvite.id, id), gt(watchPartyInvite.expiresAt, sql`NOW()`)))
+		.where(and(eq(watchPartyInvite.id, id), gt(watchPartyInvite.expiresAt, sql`CURRENT_TIMESTAMP`)))
 		.leftJoin(watchPartyUser, eq(watchPartyInvite.watchPartyId, watchPartyUser.watchPartyId))
 		.leftJoin(users, eq(users.id, watchPartyUser.userId))
 		.leftJoin(watchlist, eq(watchlist.userId, watchPartyUser.userId))
