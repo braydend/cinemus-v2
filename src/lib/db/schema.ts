@@ -1,6 +1,6 @@
 import { integer, sqliteTable, primaryKey, text } from 'drizzle-orm/sqlite-core';
 import type { AdapterAccount } from '@auth/core/adapters';
-import { relations } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
 
 export const watchParty = sqliteTable('watchParty', {
@@ -41,9 +41,9 @@ export const watchPartyInvite = sqliteTable('watchPartyInvite', {
 	id: text('id', { length: 128 })
 		.$defaultFn(() => createId())
 		.primaryKey(),
-	watchPartyId: varchar('watchPartyId', { length: 128 }).notNull(),
-	createdAt: timestamp('createdAt').defaultNow(),
-	expiresAt: timestamp('expiresAt').defaultNow()
+	watchPartyId: text('watchPartyId', { length: 128 }).notNull(),
+	createdAt: integer('createdAt', { mode: 'timestamp' }).default(sql`CURRENT_TIMESTAMP`),
+	expiresAt: integer('expiresAt', { mode: 'timestamp' })
 });
 
 export const watchPartyInviteRelations = relations(watchPartyInvite, ({ one }) => ({

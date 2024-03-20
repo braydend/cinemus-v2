@@ -20,7 +20,7 @@ export async function POST({ locals, request }) {
 		await db
 			.insert(userPreferences)
 			.values({ userId: userId, region: body.region })
-			.onDuplicateKeyUpdate({ set: { region: body.region } });
+			.onConflictDoUpdate({ target: userPreferences.userId, set: { region: body.region } });
 
 		return json({ success: true });
 	} catch (e) {
