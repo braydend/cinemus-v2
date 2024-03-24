@@ -8,7 +8,7 @@ import {
 	text
 } from 'drizzle-orm/mysql-core';
 import type { AdapterAccount } from '@auth/core/adapters';
-import { relations, sql } from 'drizzle-orm';
+import { relations } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
 
 export const watchParty = mysqlTable('watchParty', {
@@ -51,7 +51,7 @@ export const watchPartyInvite = mysqlTable('watchPartyInvite', {
 		.primaryKey(),
 	watchPartyId: varchar('watchPartyId', { length: 128 }).notNull(),
 	createdAt: timestamp('createdAt').defaultNow(),
-	expiresAt: timestamp('expiresAt').default(sql`(DATE_ADD(NOW(), INTERVAL 60 MINUTE))`)
+	expiresAt: timestamp('expiresAt').defaultNow()
 });
 
 export const watchPartyInviteRelations = relations(watchPartyInvite, ({ one }) => ({
