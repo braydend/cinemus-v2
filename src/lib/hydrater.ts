@@ -35,7 +35,7 @@ export const hydrateMedia = async (list: Media[]): Promise<HydratedMedia[]> => {
 	return hydratedMedia;
 };
 
-export const hydrateList = async (list: ListedMedia[]): Promise<HydratedList> => {
+export const hydrateWatchlist = async (list: ListedMedia[]): Promise<HydratedList> => {
 	const hydratedMedia = await hydrateMedia((list ?? []).map(({ media }) => media));
 
 	const hydratedList = list.reduce<HydratedList>(

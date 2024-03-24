@@ -1,8 +1,5 @@
-import { eq } from 'drizzle-orm';
-import { db } from '../../lib/db/index';
-import { watchlist } from '../../lib/db/schema';
 import { error } from '@sveltejs/kit';
-import { hydrateList } from '$lib/hydrater';
+import { getWatchlistForUser } from '../../lib/domain/watchlist';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ locals }) {
@@ -12,12 +9,7 @@ export async function load({ locals }) {
 	if (!userId) {
 		throw error(401, 'You need to be authorised to do this!');
 	}
-	const list = await db.query.watchlist.findFirst({
-		where: eq(watchlist.userId, userId),
-		with: { listedMedia: { with: { media: true } } }
-	});
+	const list = await getWatchlistForUser(userId);
 
-	const hydratedList = await hydrateList(list?.listedMedia ?? []);
-
-	return { list: hydratedList };
+	return { list };
 }
