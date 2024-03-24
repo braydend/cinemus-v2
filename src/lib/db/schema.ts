@@ -104,14 +104,22 @@ export const userPreferencesRelations = relations(userPreferences, ({ one }) => 
 }));
 
 // AuthJS Tables
+// export const users = sqliteTable('user', {
+// 	id: text('id', { length: 255 }).notNull().primaryKey(),
+// 	name: text('name', { length: 255 }),
+// 	email: text('email', { length: 255 }).default(''),
+// 	emailVerified: integer('emailVerified', {
+// 		mode: 'timestamp'
+// 	}).default(sql`CURRENT_TIMESTAMP`),
+// 	image: text('image', { length: 255 })
+// });
+
 export const users = sqliteTable('user', {
-	id: text('id', { length: 255 }).notNull().primaryKey(),
-	name: text('name', { length: 255 }),
-	email: text('email', { length: 255 }).default(''),
-	emailVerified: integer('emailVerified', {
-		mode: 'timestamp'
-	}).default(sql`CURRENT_TIMESTAMP`),
-	image: text('image', { length: 255 })
+	id: text('id').notNull().primaryKey(),
+	name: text('name'),
+	email: text('email').notNull(),
+	emailVerified: integer('emailVerified', { mode: 'timestamp_ms' }),
+	image: text('image')
 });
 
 export const userRelations = relations(users, ({ one, many }) => ({
@@ -125,51 +133,39 @@ export const userRelations = relations(users, ({ one, many }) => ({
 export const accounts = sqliteTable(
 	'account',
 	{
-		userId: text('userId', { length: 255 }).notNull(),
-		type: text('type', { length: 255 }).$type<AdapterAccount['type']>().notNull(),
-		provider: text('provider', { length: 255 }).notNull(),
-		providerAccountId: text('providerAccountId', { length: 255 }).notNull(),
-		refresh_token: text('refresh_token', { length: 255 }),
-		access_token: text('access_token', { length: 255 }),
+		userId: text('userId')
+			.notNull()
+			.references(() => users.id, { onDelete: 'cascade' }),
+		type: text('type').$type<AdapterAccount['type']>().notNull(),
+		provider: text('provider').notNull(),
+		providerAccountId: text('providerAccountId').notNull(),
+		refresh_token: text('refresh_token'),
+		access_token: text('access_token'),
 		expires_at: integer('expires_at'),
-		token_type: text('token_type', { length: 255 }),
-		scope: text('scope', { length: 255 }),
+		token_type: text('token_type'),
+		scope: text('scope'),
 		id_token: text('id_token'),
-		session_state: text('session_state', { length: 255 })
+		session_state: text('session_state')
 	},
 	(account) => ({
 		compoundKey: primaryKey(account.provider, account.providerAccountId)
 	})
 );
 
-export const accountRelations = relations(accounts, ({ one }) => ({
-	user: one(users, {
-		fields: [accounts.userId],
-		references: [users.id]
-	})
-}));
-
 export const sessions = sqliteTable('session', {
-	sessionToken: text('sessionToken', { length: 255 }).notNull().primaryKey(),
-	userId: text('userId', { length: 255 }).notNull(),
-	expires: integer('expires', {
-		mode: 'timestamp'
-	}).notNull()
+	sessionToken: text('sessionToken').notNull().primaryKey(),
+	userId: text('userId')
+		.notNull()
+		.references(() => users.id, { onDelete: 'cascade' }),
+	expires: integer('expires', { mode: 'timestamp_ms' }).notNull()
 });
-
-export const sessionRelations = relations(sessions, ({ one }) => ({
-	user: one(users, {
-		fields: [sessions.userId],
-		references: [users.id]
-	})
-}));
 
 export const verificationTokens = sqliteTable(
 	'verificationToken',
 	{
-		identifier: text('identifier', { length: 255 }).notNull(),
-		token: text('token', { length: 255 }).notNull(),
-		expires: integer('expires', { mode: 'timestamp' }).notNull()
+		identifier: text('identifier').notNull(),
+		token: text('token').notNull(),
+		expires: integer('expires', { mode: 'timestamp_ms' }).notNull()
 	},
 	(vt) => ({
 		compoundKey: primaryKey(vt.identifier, vt.token)
