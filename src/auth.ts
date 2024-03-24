@@ -15,7 +15,7 @@ import {
 } from '$env/static/private';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import { db } from '$lib/db';
-import Email from '@auth/core/providers/email';
+import Email from '@auth/core/providers/nodemailer';
 
 export const { handle, signIn, signOut } = SvelteKitAuth(async () => {
 	const authOptions = {
@@ -35,6 +35,15 @@ export const { handle, signIn, signOut } = SvelteKitAuth(async () => {
 			})
 		],
 		adapter: DrizzleAdapter(db),
+		callbacks: {
+			session: ({ session, user }) => ({
+				...session,
+				user: {
+					...session.user,
+					id: user.id
+				}
+			})
+		},
 		secret: AUTH_SECRET,
 		trustHost: true
 	} as SvelteKitAuthConfig;

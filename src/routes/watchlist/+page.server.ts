@@ -2,12 +2,12 @@ import { eq } from 'drizzle-orm';
 import { db } from '../../lib/db/index';
 import { watchlist } from '../../lib/db/schema';
 import { error } from '@sveltejs/kit';
-import type { CustomSession } from '../../lib/types';
 import { hydrateList } from '$lib/hydrater';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ locals }) {
-	const userId = ((await locals.getSession())?.user as CustomSession)?.id;
+	const session = await locals.auth();
+	const userId = session?.user?.id;
 
 	if (!userId) {
 		throw error(401, 'You need to be authorised to do this!');
@@ -16,34 +16,6 @@ export async function load({ locals }) {
 		where: eq(watchlist.userId, userId),
 		with: { listedMedia: { with: { media: true } } }
 	});
-
-	// const watchParties = await db
-	// 	.select({
-	// 		partyMemberId: users.id,
-	// 		userName: users.name,
-	// 		userImage: users.image,
-	// 		id: watchParty.id
-	// 	})
-	// 	.from(watchParty)
-	// 	.leftJoin(watchPartyUser, eq(watchPartyUser.watchPartyId, watchParty.id))
-	// 	.leftJoin(users, eq(users.id, watchPartyUser.userId));
-
-	// const usersWatchParties = watchParties.reduce<Map<string, Map<string, string>>>(
-	// 	(acc, { partyMemberId, userName, userImage, id }) => {
-	// 		if (!userName || !userImage) return acc;
-	// 		if (partyMemberId === userId) return acc;
-
-	// 		if (acc.has(id)) {
-	// 			acc.get(id)?.set(userName, userImage);
-	// 			return acc;
-	// 		}
-
-	// 		acc.set(id, new Map().set(userName, userImage));
-
-	// 		return acc;
-	// 	},
-	// 	new Map<string, Map<string, string>>()
-	// );
 
 	const hydratedList = await hydrateList(list?.listedMedia ?? []);
 
