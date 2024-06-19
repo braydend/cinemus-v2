@@ -125,6 +125,6 @@ const DAY = 24 * HOUR;
 export const config = {
 	isr: {
 		expiration: 1 * DAY,
-		bypassToken: 'sexret-string-to-bust-cinemus-media-cache'
+		bypassToken: 'secret-string-to-bust-cinemus-media-cache'
 	}
 };
