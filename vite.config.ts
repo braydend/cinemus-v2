@@ -1,33 +1,32 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
+import { icons } from './src/pwa-icons';
 
 export default defineConfig({
 	plugins: [
 		sveltekit(),
 		SvelteKitPWA({
 			manifest: {
-				short_name: 'Cinemus',
 				name: 'Cinemus',
+				short_name: 'Cinemus',
 				start_url: '/',
-				scope: '/',
 				display: 'standalone',
+				background_color: '#000000',
+				lang: 'en',
+				scope: '/',
 				theme_color: '#ffffff',
-				background_color: '#ffffff',
-				icons: [
+				icons,
+				orientation: 'portrait',
+				dir: 'ltr',
+				shortcuts: [
 					{
-						src: '/icon-512.png',
-						sizes: '512x512',
-						type: 'image/png',
-						purpose: 'any maskable'
-					},
-					{
-						src: '/icon-192.png',
-						sizes: '192x192',
-						type: 'image/png',
-						purpose: 'any maskable'
+						name: 'Watchlist',
+						url: '/watchlist',
+						description: 'View your watchlist'
 					}
-				]
+				],
+				categories: ['entertainment']
 			}
 		})
 	],
