@@ -6,10 +6,12 @@
 	import { navigating, page } from '$app/stores';
 	import { signIn, signOut } from '@auth/sveltekit/client';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
+	import { pwaInfo } from 'virtual:pwa-info';
 
 	const userSession = $page.data.session?.user;
 	const isAuthed = Boolean(userSession);
 	$: isNavigating = false;
+	$: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 	navigating.subscribe((nav) => {
 		isNavigating = Boolean(nav?.to);
 	});
@@ -23,6 +25,10 @@
 	};
 </script>
 
+<svelte:head>
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+	{@html webManifestLink}
+</svelte:head>
 <div class="h-screen bg-black text-white overflow-y-scroll">
 	<div
 		class="nav-loader"
