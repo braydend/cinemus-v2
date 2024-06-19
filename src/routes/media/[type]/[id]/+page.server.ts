@@ -116,3 +116,15 @@ export async function load({ params, locals }) {
 
 	throw error(404, 'Not found');
 }
+
+const SECOND = 1;
+const MINUTE = 60 * SECOND;
+const HOUR = 60 * MINUTE;
+const DAY = 24 * HOUR;
+
+export const config = {
+	isr: {
+		expiration: 1 * DAY,
+		bypassToken: 'sexret-string-to-bust-cinemus-media-cache'
+	}
+};
