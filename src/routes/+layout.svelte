@@ -7,6 +7,7 @@
 	import { signIn, signOut } from '@auth/sveltekit/client';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
 	import { pwaInfo } from 'virtual:pwa-info';
+	import { dev } from '$app/environment';
 
 	const userSession = $page.data.session?.user;
 	const isAuthed = Boolean(userSession);
@@ -26,6 +27,9 @@
 </script>
 
 <svelte:head>
+	{#if !dev}
+		<script defer data-domain="cinemus.io" src="https://plausible.io/js/script.js"></script>
+	{/if}
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html webManifestLink}
 </svelte:head>
