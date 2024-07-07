@@ -1,15 +1,14 @@
 import { error } from '@sveltejs/kit';
 import { getMovie, getShow } from '../../../../lib/tmdb/media';
-import {
-	getMovieWatchProviders,
-	getShowWatchProviders,
-	getWatchProviderRegions
-} from '../../../../lib/tmdb/watchProviders';
 import { getConfiguration } from '../../../../lib/tmdb';
 import { db } from '$lib/db';
 import type { CustomSession } from '$lib/types';
 import { listedMedia, media, userPreferences, watchlist } from '$lib/db/schema';
 import { and, eq } from 'drizzle-orm';
+import {
+	getWatchProviderRegions,
+	getWatchProviders
+} from '$lib/repositories/watchProviderRepository';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params, locals }) {
@@ -56,7 +55,7 @@ export async function load({ params, locals }) {
 		const result = await getShow(id);
 		const [selectedRegion, showProviders, config, isListed, regions] = await Promise.all([
 			selectedRegionPromise,
-			getShowWatchProviders(id),
+			getWatchProviders({ id, type: 'show' }),
 			configPromise,
 			isListedPromise,
 			regionsPromise
@@ -87,7 +86,7 @@ export async function load({ params, locals }) {
 		const result = await getMovie(id);
 		const [selectedRegion, movieProviders, config, isListed, regions] = await Promise.all([
 			selectedRegionPromise,
-			getMovieWatchProviders(id),
+			getWatchProviders({ id, type: 'movie' }),
 			configPromise,
 			isListedPromise,
 			regionsPromise

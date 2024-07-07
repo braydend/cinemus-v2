@@ -99,7 +99,7 @@ export type TmdbShowDetails = TmdbShow & {
 	spoken_languages: SpokenLanguage[];
 	status: string;
 	tagline: string;
-	type: string;
+	type: 'show';
 };
 
 interface LastEpisodeToAir {
