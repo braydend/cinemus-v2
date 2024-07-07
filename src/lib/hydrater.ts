@@ -4,12 +4,12 @@ import type { ArrayElement, HydratedList, HydratedMedia, ListedMedia, Media } fr
 export const hydrateMedia = async (list: Media[]): Promise<HydratedMedia[]> => {
 	const [tmdbConfig, ...tmdbMedia] = await Promise.all([
 		getConfiguration(),
-		...(list.map(({ type, tmdbId }) => {
+		...list.map(({ type, tmdbId }) => {
 			if (type === 'movie') {
 				return getMovie(tmdbId.toString(10));
 			}
 			return getShow(tmdbId.toString(10));
-		}) ?? [])
+		})
 	]);
 
 	const hydratedMedia = list.reduce<HydratedMedia[]>((acc, { tmdbId, type, id }) => {
