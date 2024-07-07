@@ -44,7 +44,7 @@ export const getWatchProviderRegions = async (): Promise<TmdbWatchProviderRegion
 
 		return response;
 	} catch (e) {
-		throw Error(`Failed to get TMDB watch provider regions: ${(e as Error).message}`);
+		throw Error(`Failed to get TMDB watch provider regions`, { cause: e });
 	}
 };
 
@@ -56,7 +56,7 @@ export const getShowWatchProviders = async (id: string): Promise<TmdbWatchProvid
 
 		return response;
 	} catch (e) {
-		throw Error(`Failed to get TMDB show watch providers: ${(e as Error).message}`);
+		throw Error(`Failed to get TMDB show watch providers`, { cause: e });
 	}
 };
 
@@ -68,6 +68,6 @@ export const getMovieWatchProviders = async (id: string): Promise<TmdbWatchProvi
 
 		return response;
 	} catch (e) {
-		throw Error(`Failed to get TMDB movie watch providers: ${(e as Error).message}`);
+		throw Error(`Failed to get TMDB movie watch providers:`, { cause: e });
 	}
 };

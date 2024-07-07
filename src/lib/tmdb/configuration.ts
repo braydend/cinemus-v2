@@ -26,6 +26,6 @@ export const getConfiguration = async (): Promise<TmdbConfigurationResponse> => 
 
 		return response;
 	} catch (e) {
-		throw Error(`Failed to get TMDB configuration: ${(e as Error).message}`);
+		throw Error(`Failed to get TMDB configuration`, { cause: e });
 	}
 };

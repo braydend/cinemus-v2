@@ -34,7 +34,7 @@ const get = async <MediaType extends TmdbMedia>(
 
 		return markedMedia;
 	} catch (e) {
-		throw Error(`Failed to find ${type} with id ${id}: ${(e as Error).message}`);
+		throw Error(`Failed to find ${type} with id ${id}`, { cause: e });
 	}
 };
 
@@ -54,7 +54,7 @@ const search = async <MediaType extends TmdbMedia>(
 			results: markedMedia.sort((a, b) => b.popularity - a.popularity)
 		};
 	} catch (e) {
-		throw Error(`Failed to search for ${query} in ${mediaType}: ${(e as Error).message}`);
+		throw Error(`Failed to search for ${query} in ${mediaType}`, { cause: e });
 	}
 };
 
