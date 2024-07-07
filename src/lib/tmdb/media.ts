@@ -21,13 +21,6 @@ const markMediaType = <MediaType extends TmdbMedia>(
 	return { ...media, __type: typeString };
 };
 
-const markMediaTypes = <MediaType extends TmdbMedia>(
-	media: MediaType[],
-	type: MediaCategory
-): MediaType[] => {
-	return media.map((data) => markMediaType(data, type));
-};
-
 const get = async <MediaType extends TmdbMedia>(
 	id: string,
 	type: MediaCategory
@@ -54,7 +47,7 @@ const search = async <MediaType extends TmdbMedia>(
 			`${tmdbBaseUrl}/search/${mediaType}?api_key=${MOVIE_DB_API_KEY}&query=${query}`
 		).then((d) => d.json());
 
-		const markedMedia = markMediaTypes(response.results, mediaType);
+		const markedMedia = response.results.map((d) => markMediaType(d, mediaType));
 
 		return {
 			...response,
