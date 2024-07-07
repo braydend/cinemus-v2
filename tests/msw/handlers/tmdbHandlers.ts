@@ -1,7 +1,8 @@
 import { http, HttpResponse } from 'msw';
 import { providers } from '../mocks/tmdb/providers';
+import { TMDB_URL } from '$lib/tmdb/consts';
 
-const tmdbBaseUrl = process.env.TMDB_URL ?? '';
+const tmdbBaseUrl = TMDB_URL;
 
 export const tmdbHandlers = [
 	http.get(`${tmdbBaseUrl}/movie/*`, async () => {
