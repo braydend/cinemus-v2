@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import { providers } from '../mocks/tmdb/providers';
 import { TMDB_URL } from '$lib/tmdb/consts';
+import { searchMovie, searchShows } from '../mocks/tmdb/search';
 
 const tmdbBaseUrl = TMDB_URL;
 
@@ -330,5 +331,11 @@ export const tmdbHandlers = [
 	}),
 	http.get(`${tmdbBaseUrl}/tv/*/watch/providers`, () => {
 		return HttpResponse.json(providers);
+	}),
+	http.get(`${tmdbBaseUrl}/search/tv`, () => {
+		return HttpResponse.json(searchShows);
+	}),
+	http.get(`${tmdbBaseUrl}/search/movie`, () => {
+		return HttpResponse.json(searchMovie);
 	})
 ];
