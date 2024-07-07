@@ -1,4 +1,5 @@
-import { MOVIE_DB_API_KEY, TMDB_URL } from '$env/static/private';
+import { MOVIE_DB_API_KEY } from '$env/static/private';
+import { TMDB_URL } from './consts';
 
 const tmdbBaseUrl = TMDB_URL;
 
