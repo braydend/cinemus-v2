@@ -7,7 +7,7 @@ import {
 	watchPartyUser,
 	watchlist
 } from '$lib/db/schema.js';
-import { hydrateMedia } from '$lib/hydrater';
+import { hydrateMediaList } from '$lib/hydrater';
 import type { CustomSession, HydratedMedia, Media } from '$lib/types';
 import { error } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
@@ -50,7 +50,7 @@ export async function load({ params, locals }) {
 	const buildMediaKey = (media: { tmdbId: number; mediaType: string }) =>
 		`${media.mediaType}:${media.tmdbId.toString(10)}`;
 
-	const hydratedMedia = await hydrateMedia(
+	const hydratedMedia = await hydrateMediaList(
 		selectedWatchParty.reduce((acc, { tmdbId, mediaType, mediaId }) => {
 			if (tmdbId === null || mediaType === null || mediaId === null) return acc;
 
