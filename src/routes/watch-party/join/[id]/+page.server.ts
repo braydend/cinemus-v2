@@ -7,7 +7,7 @@ import {
 	watchPartyUser,
 	watchlist
 } from '$lib/db/schema.js';
-import { hydrateMedia } from '$lib/hydrater';
+import { hydrateMediaList } from '$lib/hydrater';
 import type { Media, CustomSession } from '$lib/types';
 import { error, redirect } from '@sveltejs/kit';
 import { and, eq, gt, sql } from 'drizzle-orm';
@@ -57,7 +57,7 @@ export const load = async ({ params, locals }) => {
 			console.log({ users: r });
 		});
 
-	const hydratedMedia = await hydrateMedia(
+	const hydratedMedia = await hydrateMediaList(
 		existingInvite.reduce<Media[]>((acc, { tmdbId, mediaId, mediaType }) => {
 			if (mediaId === null || tmdbId === null || !mediaType) return acc;
 			return [...acc, { id: mediaId, tmdbId, type: mediaType }];
