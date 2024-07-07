@@ -6,6 +6,15 @@ import { searchMovie, searchShows } from '../mocks/tmdb/search';
 const tmdbBaseUrl = TMDB_URL;
 
 export const tmdbHandlers = [
+	http.get(`${tmdbBaseUrl}/*/*/watch/providers`, () => {
+		return HttpResponse.json(providers);
+	}),
+	http.get(`${tmdbBaseUrl}/search/tv`, () => {
+		return HttpResponse.json(searchShows);
+	}),
+	http.get(`${tmdbBaseUrl}/search/movie`, () => {
+		return HttpResponse.json(searchMovie);
+	}),
 	http.get(`${tmdbBaseUrl}/movie/*`, async () => {
 		return HttpResponse.json({
 			adult: false,
@@ -328,14 +337,5 @@ export const tmdbHandlers = [
 				'videos'
 			]
 		});
-	}),
-	http.get(`${tmdbBaseUrl}/tv/*/watch/providers`, () => {
-		return HttpResponse.json(providers);
-	}),
-	http.get(`${tmdbBaseUrl}/search/tv`, () => {
-		return HttpResponse.json(searchShows);
-	}),
-	http.get(`${tmdbBaseUrl}/search/movie`, () => {
-		return HttpResponse.json(searchMovie);
 	})
 ];
