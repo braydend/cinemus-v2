@@ -3,7 +3,7 @@ import type { CustomSession } from '$lib/types';
 import { db } from '$lib/db/index.js';
 import { eq } from 'drizzle-orm';
 import { userPreferences } from '$lib/db/schema.js';
-import { getWatchProviderRegions } from '$lib/tmdb/watchProviders.js';
+import { getWatchProviderRegions } from '$lib/tmdb/watchProviders';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ locals }) {
